@@ -15,8 +15,8 @@ export default function SplashPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#a8c8f8] via-[#c5d9f8] to-[#e8f0fe]">
       <div className="flex items-center gap-3">
-        <Logo variant="light" className="scale-150" />
-        <span className="text-white text-3xl font-semibold tracking-wide">
+        <Logo className="text-4xl" />
+        <span className="text-primary text-3xl font-semibold tracking-wide">
           Gclout Admin
         </span>
       </div>
