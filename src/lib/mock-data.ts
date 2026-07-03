@@ -76,6 +76,28 @@ export const users = [
   { name: "Ugochi Dochie", email: "ugoo@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30" },
 ];
 
+export type RequestStatus = "Pending" | "Approved" | "Rejected";
+
+export const roleChangeRequests = [
+  { id: "RC-1041", name: "Adaeze Okafor", email: "adaeze.ok@gmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Won local government chairmanship election", date: "Jun 9, 2025", status: "Pending" as RequestStatus },
+  { id: "RC-1040", name: "Bolaji Adewale", email: "bolaji.a@outlook.com", currentRole: "Citizen", requestedRole: "Page Admin", reason: "Managing official party page", date: "Jun 8, 2025", status: "Pending" as RequestStatus },
+  { id: "RC-1038", name: "Chidinma Eze", email: "chidi.eze@yahoo.com", currentRole: "Page", requestedRole: "Page Admin", reason: "Promoted to communications lead", date: "Jun 7, 2025", status: "Approved" as RequestStatus },
+  { id: "RC-1035", name: "Musa Ibrahim", email: "musa.i@gmail.com", currentRole: "Citizen", requestedRole: "Appointed Rep", reason: "Appointed commissioner for works", date: "Jun 5, 2025", status: "Pending" as RequestStatus },
+  { id: "RC-1033", name: "Funke Alabi", email: "funke.alabi@hotmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Insufficient verification documents", date: "Jun 3, 2025", status: "Rejected" as RequestStatus },
+  { id: "RC-1030", name: "Emeka Nwosu", email: "emeka.n@icloud.com", currentRole: "Page", requestedRole: "Page Admin", reason: "Taking over page management", date: "Jun 1, 2025", status: "Approved" as RequestStatus },
+];
+
+export type AccreditationStatus = "Accredited" | "Pending" | "Revoked";
+
+export const electionObservers = [
+  { id: "EO-204", name: "Ngozi Umeh", organization: "YIAGA Africa", email: "n.umeh@yiaga.org", state: "Lagos", election: "2027 General Election", status: "Accredited" as AccreditationStatus },
+  { id: "EO-203", name: "Tunde Bakare", organization: "Transition Monitoring Group", email: "t.bakare@tmg.ng", state: "Oyo", election: "2027 General Election", status: "Accredited" as AccreditationStatus },
+  { id: "EO-201", name: "Amina Yusuf", organization: "CLEEN Foundation", email: "a.yusuf@cleen.org", state: "Kano", election: "2026 Governorship", status: "Pending" as AccreditationStatus },
+  { id: "EO-198", name: "Osaretin Igbinedion", organization: "EU Election Observation", email: "o.igbin@eueom.eu", state: "Edo", election: "2026 Governorship", status: "Accredited" as AccreditationStatus },
+  { id: "EO-195", name: "Blessing Chukwu", organization: "NDI Nigeria", email: "b.chukwu@ndi.org", state: "Anambra", election: "2025 Bye-Election", status: "Revoked" as AccreditationStatus },
+  { id: "EO-192", name: "Ibrahim Sule", organization: "Situation Room", email: "i.sule@situationroom.ng", state: "Kaduna", election: "2027 General Election", status: "Pending" as AccreditationStatus },
+];
+
 export type CampaignStatus = "Active" | "Completed";
 
 export const topCampaigns = [
