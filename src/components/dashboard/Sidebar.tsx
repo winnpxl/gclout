@@ -11,6 +11,7 @@ import {
   Settings,
   HelpCircle,
   ChevronRight,
+  ChevronDown,
   ChevronsUpDown,
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
@@ -18,9 +19,22 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Users", href: "/dashboard/users", icon: Users, expandable: true },
+  {
+    label: "Users",
+    href: "/dashboard/users",
+    icon: Users,
+    subItems: [
+      { label: "Role Change Requests", href: "/dashboard/users/role-requests" },
+      { label: "Election Observers", href: "/dashboard/users/observers" },
+    ],
+  },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { label: "Content", href: "/dashboard/content", icon: FileText, expandable: true },
+  {
+    label: "Content",
+    href: "/dashboard/content",
+    icon: FileText,
+    subItems: [],
+  },
   { label: "Report", href: "/dashboard/report", icon: Flag },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
   { label: "Help", href: "/dashboard/help", icon: HelpCircle },
@@ -43,23 +57,50 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-2 py-2 space-y-1">
-        {navItems.map(({ label, href, icon: Icon, expandable }) => {
+        {navItems.map(({ label, href, icon: Icon, subItems }) => {
+          const expanded =
+            !!subItems?.length &&
+            (pathname === href || pathname.startsWith(href + "/"));
           const active = pathname === href;
           return (
-            <Link
-              key={href}
-              href={href}
-              className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                active
-                  ? "bg-blue-50 text-primary font-medium"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            <div key={href}>
+              <Link
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                  active
+                    ? "bg-blue-50 text-primary font-medium"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                )}
+              >
+                <Icon size={16} />
+                <span className="flex-1">{label}</span>
+                {!!subItems &&
+                  (expanded ? (
+                    <ChevronDown size={14} className="text-gray-400" />
+                  ) : (
+                    <ChevronRight size={14} className="text-gray-400" />
+                  ))}
+              </Link>
+              {expanded && (
+                <div className="mt-1 space-y-1 pl-9">
+                  {subItems.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className={cn(
+                        "block rounded-md px-3 py-1.5 text-sm transition-colors",
+                        pathname === sub.href
+                          ? "text-primary font-medium"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
               )}
-            >
-              <Icon size={16} />
-              <span className="flex-1">{label}</span>
-              {expandable && <ChevronRight size={14} className="text-gray-400" />}
-            </Link>
+            </div>
           );
         })}
       </nav>

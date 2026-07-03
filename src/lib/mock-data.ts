@@ -63,6 +63,19 @@ export const awaitingReview = [
   },
 ];
 
+export type UserStatus = "Active" | "Suspended";
+
+export const users = [
+  { name: "Rebecca Bashir", email: "beccahye@icloud.com", phone: "+234 812 004 5477", role: "Citizen", status: "Active" as UserStatus, lastLogin: "Dec 1, 2024, 9:30" },
+  { name: "Lydia Durojaiye", email: "phoenixbaker@outlook.com", phone: "+234 909 078 2553", role: "Elected Rep", status: "Suspended" as UserStatus, lastLogin: "Nov 1, 2025, 9:30" },
+  { name: "Candice Woo", email: "candicr@aol.com", phone: "+234 915 899 2253", role: "Appointed Rep", status: "Active" as UserStatus, lastLogin: "Oct 1, 2025, 9:30" },
+  { name: "Susan Adeleke", email: "suan@gmail.com", phone: "+234 814 008 9294", role: "Citizen", status: "Suspended" as UserStatus, lastLogin: "Jul 1, 2025, 9:30" },
+  { name: "David Olowookere", email: "davido@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30" },
+  { name: "Toyin Oyidamola", email: "toyintomato@hotmail.com", phone: "+234 904 899 1379", role: "Page", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30" },
+  { name: "Mary Obubra", email: "matuyui@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Active" as UserStatus, lastLogin: "Jun 1, 2025, 9:30" },
+  { name: "Ugochi Dochie", email: "ugoo@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30" },
+];
+
 export type CampaignStatus = "Active" | "Completed";
 
 export const topCampaigns = [
