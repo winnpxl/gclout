@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ const inputClasses = cn(
 );
 
 export default function LoginPage() {
+  const router = useRouter();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +31,8 @@ export default function LoginPage() {
     if (step === "email") {
       setStep("password");
     } else {
-      // TODO: submit credentials
+      // TODO: submit credentials to the auth API
+      router.push("/dashboard");
     }
   }
 
