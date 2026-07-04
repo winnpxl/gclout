@@ -10,7 +10,11 @@ import {
   Search,
   Upload,
 } from "lucide-react";
-import { users, type UserStatus } from "@/lib/mock-data";
+import {
+  SuspendUserModal,
+  ReactivateUserModal,
+} from "@/components/dashboard/modals";
+import { users as initialUsers, type UserStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusStyles: Record<UserStatus, string> = {
@@ -35,20 +39,34 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+type ModalState =
+  | { type: "suspend"; email: string; name: string }
+  | { type: "reactivate"; email: string; name: string }
+  | null;
+
 export default function UsersPage() {
   const [query, setQuery] = useState("");
+  const [userList, setUserList] = useState(initialUsers);
+  const [menuFor, setMenuFor] = useState<string | null>(null);
+  const [modal, setModal] = useState<ModalState>(null);
 
   const q = query.trim().toLowerCase();
   const filtered = q
-    ? users.filter((u) =>
+    ? userList.filter((u) =>
         [u.name, u.email, u.phone, u.role].some((f) =>
           f.toLowerCase().includes(q)
         )
       )
-    : users;
+    : userList;
+
+  function setStatus(email: string, status: UserStatus) {
+    setUserList((prev) =>
+      prev.map((u) => (u.email === email ? { ...u, status } : u))
+    );
+  }
 
   return (
-    <main className="px-6 py-6 space-y-6">
+    <main className="px-6 py-6 space-y-6" onClick={() => setMenuFor(null)}>
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
@@ -144,14 +162,62 @@ export default function UsersPage() {
                 <td className="px-4 py-4 text-sm text-gray-600">
                   {user.lastLogin}
                 </td>
-                <td className="px-4 py-4">
+                <td className="relative px-4 py-4">
                   <button
                     type="button"
                     aria-label={`Actions for ${user.name}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuFor(menuFor === user.email ? null : user.email);
+                    }}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     <MoreVertical size={14} />
                   </button>
+                  {menuFor === user.email && (
+                    <div
+                      className="absolute right-4 top-10 z-10 w-44 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        View details
+                      </button>
+                      {user.status === "Active" ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setMenuFor(null);
+                            setModal({
+                              type: "suspend",
+                              email: user.email,
+                              name: user.name,
+                            });
+                          }}
+                          className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                        >
+                          Suspend user
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setMenuFor(null);
+                            setModal({
+                              type: "reactivate",
+                              email: user.email,
+                              name: user.name,
+                            });
+                          }}
+                          className="block w-full px-4 py-2 text-left text-sm text-primary hover:bg-blue-50"
+                        >
+                          Reactivate user
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
@@ -209,6 +275,27 @@ export default function UsersPage() {
           </button>
         </div>
       </div>
+
+      {modal?.type === "suspend" && (
+        <SuspendUserModal
+          userName={modal.name}
+          onClose={() => setModal(null)}
+          onConfirm={() => {
+            setStatus(modal.email, "Suspended");
+            setModal(null);
+          }}
+        />
+      )}
+      {modal?.type === "reactivate" && (
+        <ReactivateUserModal
+          userName={modal.name}
+          onClose={() => setModal(null)}
+          onConfirm={() => {
+            setStatus(modal.email, "Active");
+            setModal(null);
+          }}
+        />
+      )}
     </main>
   );
 }

@@ -10,6 +10,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import { RejectApplicationModal } from "@/components/dashboard/modals";
 import { roleChangeRequests, type RequestStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,9 @@ const statusStyles: Record<RequestStatus, string> = {
 export default function RoleChangeRequestsPage() {
   const [query, setQuery] = useState("");
   const [requests, setRequests] = useState(roleChangeRequests);
+  const [rejecting, setRejecting] = useState<{ id: string; name: string } | null>(
+    null
+  );
 
   const q = query.trim().toLowerCase();
   const filtered = q
@@ -134,7 +138,7 @@ export default function RoleChangeRequestsPage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => setStatus(r.id, "Rejected")}
+                        onClick={() => setRejecting({ id: r.id, name: r.name })}
                         aria-label={`Reject ${r.id}`}
                         className="flex h-7 w-7 items-center justify-center rounded-md border border-red-200 bg-red-50 text-red-500 hover:bg-red-100"
                       >
@@ -176,6 +180,17 @@ export default function RoleChangeRequestsPage() {
           </button>
         </div>
       </div>
+
+      {rejecting && (
+        <RejectApplicationModal
+          applicantName={rejecting.name}
+          onClose={() => setRejecting(null)}
+          onConfirm={() => {
+            setStatus(rejecting.id, "Rejected");
+            setRejecting(null);
+          }}
+        />
+      )}
     </main>
   );
 }
