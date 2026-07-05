@@ -243,6 +243,55 @@ export function ReactivateUserModal({
   );
 }
 
+interface DowngradeUserModalProps {
+  userName: string;
+  currentRole: string;
+  onClose: () => void;
+  onConfirm: (notify: boolean) => void;
+}
+
+export function DowngradeUserModal({
+  userName,
+  currentRole,
+  onClose,
+  onConfirm,
+}: DowngradeUserModalProps) {
+  return (
+    <ModalShell
+      onClose={onClose}
+      icon={<AlertOctagon size={22} className="text-primary" />}
+      iconClass="bg-blue-50"
+    >
+      <h2 className="mt-4 text-lg font-semibold text-gray-900">Downgrade user?</h2>
+      <p className="mt-1 text-sm text-gray-500">
+        Are you sure you want to downgrade &ldquo;{userName}&rdquo; from{" "}
+        {currentRole} back to Citizen? They will lose their elevated
+        privileges, do you want to proceed?
+      </p>
+
+      <div className="mt-6 flex items-center justify-end gap-3">
+        <button type="button" onClick={onClose} className={cancelBtn}>
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={() => onConfirm(false)}
+          className="rounded-lg border border-blue-300 px-4 py-2.5 text-sm font-medium text-primary hover:bg-blue-50"
+        >
+          Downgrade only
+        </button>
+        <button
+          type="button"
+          onClick={() => onConfirm(true)}
+          className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700"
+        >
+          Downgrade &amp; notify
+        </button>
+      </div>
+    </ModalShell>
+  );
+}
+
 interface RejectApplicationModalProps {
   applicantName: string;
   onClose: () => void;

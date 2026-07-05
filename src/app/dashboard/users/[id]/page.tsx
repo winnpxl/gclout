@@ -7,6 +7,7 @@ import { ChevronLeft, Mail } from "lucide-react";
 import {
   SuspendUserModal,
   ReactivateUserModal,
+  DowngradeUserModal,
 } from "@/components/dashboard/modals";
 import { UserContentTab } from "@/components/dashboard/UserContentTab";
 import { UserAnalyticsTab } from "@/components/dashboard/UserAnalyticsTab";
@@ -56,8 +57,11 @@ export default function UserProfilePage({
   const { id } = use(params);
   const user = users.find((u) => u.id === id);
   const [status, setStatus] = useState<UserStatus | null>(user?.status ?? null);
+  const [role, setRole] = useState(user?.role ?? "");
   const [tab, setTab] = useState<(typeof tabs)[number]>("Overview");
-  const [modal, setModal] = useState<"suspend" | "reactivate" | null>(null);
+  const [modal, setModal] = useState<
+    "suspend" | "reactivate" | "downgrade" | null
+  >(null);
 
   if (!user || status === null) {
     notFound();
@@ -66,6 +70,7 @@ export default function UserProfilePage({
   const [firstName, ...rest] = user.name.split(" ");
   const lastName = rest.join(" ");
   const p = user.profile;
+  const elevated = role === "Elected Rep" || role === "Appointed Rep";
 
   return (
     <main className="px-6 py-6">
@@ -91,9 +96,15 @@ export default function UserProfilePage({
           <div className="pb-1">
             <h2 className="text-2xl font-semibold text-gray-900">{user.name}</h2>
             <div className="mt-2 flex items-center gap-2">
-              <span className="rounded-full border border-gray-200 bg-white px-3 py-0.5 text-xs font-medium text-gray-700">
-                {user.role}
-              </span>
+              {user.partyMember ? (
+                <span className="rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 text-xs font-medium text-purple-700">
+                  {user.partyMember}
+                </span>
+              ) : (
+                <span className="rounded-full border border-gray-200 bg-white px-3 py-0.5 text-xs font-medium text-gray-700">
+                  {role}
+                </span>
+              )}
               <StatusPill status={status} />
               <span className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-0.5 text-xs font-medium text-gray-700">
                 <span aria-hidden>🇳🇬</span> {p.country}
@@ -121,9 +132,26 @@ export default function UserProfilePage({
             <button
               type="button"
               onClick={() => setModal("reactivate")}
-              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               Reactivate user
+            </button>
+          )}
+          {user.pendingApplication && !elevated && (
+            <button
+              type="button"
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              View application
+            </button>
+          )}
+          {elevated && (
+            <button
+              type="button"
+              onClick={() => setModal("downgrade")}
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Downgrade user
             </button>
           )}
         </div>
@@ -207,6 +235,17 @@ export default function UserProfilePage({
           onClose={() => setModal(null)}
           onConfirm={() => {
             setStatus("Active");
+            setModal(null);
+          }}
+        />
+      )}
+      {modal === "downgrade" && (
+        <DowngradeUserModal
+          userName={user.name}
+          currentRole={role}
+          onClose={() => setModal(null)}
+          onConfirm={() => {
+            setRole("Citizen");
             setModal(null);
           }}
         />
