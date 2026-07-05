@@ -4,7 +4,6 @@ export const stats = [
   { label: "Verification Requests", value: "324", change: "+8.2%", up: true, icon: "check" },
   { label: "Campaign ROI", value: "33.4M", change: "-2.1%", up: false, icon: "chart" },
 ] as const;
-
 export const userGrowth = [
   { month: "Jan", users: 82000 },
   { month: "Feb", users: 86000 },
@@ -19,7 +18,6 @@ export const userGrowth = [
   { month: "Nov", users: 112500 },
   { month: "Dec", users: 121000 },
 ];
-
 export const contentDistribution = [
   { category: "Health", count: 1500 },
   { category: "Education", count: 1900 },
@@ -29,10 +27,8 @@ export const contentDistribution = [
   { category: "Environment", count: 1800 },
   { category: "Social", count: 1400 },
 ];
-
 export type ReviewStatus = "Escalated" | "Under review" | "Pending";
 export type ReviewPriority = "High" | "Medium" | "Low";
-
 export const awaitingReview = [
   {
     id: "C-1923",
@@ -62,9 +58,7 @@ export const awaitingReview = [
     timestamp: "2025-06-13 09:10",
   },
 ];
-
 export type UserStatus = "Active" | "Suspended";
-
 export interface UserProfile {
   dateOfBirth: string;
   country: string;
@@ -76,7 +70,6 @@ export interface UserProfile {
   dateJoined: string;
   joinedAs: string;
 }
-
 export const users = [
   { id: "rebecca-bashir", name: "Rebecca Bashir", email: "beccahye@icloud.com", phone: "+234 812 004 5477", role: "Citizen", status: "Active" as UserStatus, lastLogin: "Dec 1, 2024, 9:30", profile: { dateOfBirth: "April 16, 1999", country: "Nigeria", nationality: "Nigerian", state: "Lagos", ward: "Makoko", accountType: "Citizen", partyAffiliation: "Labour Party", dateJoined: "June 24, 2023", joinedAs: "Member" } as UserProfile },
   { id: "lydia-durojaiye", name: "Lydia Durojaiye", email: "phoenixbaker@outlook.com", phone: "+234 909 078 2553", role: "Elected Rep", status: "Suspended" as UserStatus, lastLogin: "Nov 1, 2025, 9:30", profile: { dateOfBirth: "August 2, 1985", country: "Nigeria", nationality: "Nigerian", state: "Oyo", ward: "Ibadan North", accountType: "Elected Rep", partyAffiliation: "APC", dateJoined: "March 12, 2022", joinedAs: "Representative" } as UserProfile },
@@ -87,14 +80,9 @@ export const users = [
   { id: "mary-obubra", name: "Mary Obubra", email: "matuyui@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Active" as UserStatus, lastLogin: "Jun 1, 2025, 9:30", profile: { dateOfBirth: "March 3, 1993", country: "Nigeria", nationality: "Nigerian", state: "Cross River", ward: "Obubra", accountType: "Page Admin", partyAffiliation: "None", dateJoined: "September 14, 2023", joinedAs: "Admin" } as UserProfile },
   { id: "ugochi-dochie", name: "Ugochi Dochie", email: "ugoo@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30", profile: { dateOfBirth: "May 20, 1991", country: "Nigeria", nationality: "Nigerian", state: "Enugu", ward: "Nsukka", accountType: "Page Admin", partyAffiliation: "None", dateJoined: "November 8, 2023", joinedAs: "Admin" } as UserProfile },
 ];
-
 export type PostModeration = "Flagged" | "Taken down" | "Appealed" | null;
-
 export interface UserPost {
   id: string;
-  author: string;
-  authorTitle: string;
-  verified: boolean;
   moderation: PostModeration;
   postedAgo: string;
   text: string;
@@ -106,13 +94,9 @@ export interface UserPost {
     | { kind: "gallery"; imageCount: number }
     | { kind: "petition"; title: string; description: string; signatures: string };
 }
-
 export const userPosts: UserPost[] = [
   {
     id: "post-1",
-    author: "Babajide Sanwo-Olu",
-    authorTitle: "Governor, Lagos State",
-    verified: true,
     moderation: "Flagged",
     postedAgo: "2h",
     text: "Secure and transparent Web3 voting built for the integrity of your DAO, corporate governance, and member-based organization.",
@@ -122,9 +106,6 @@ export const userPosts: UserPost[] = [
   },
   {
     id: "post-2",
-    author: "Babajide Sanwo-Olu",
-    authorTitle: "Governor, Lagos State",
-    verified: true,
     moderation: null,
     postedAgo: "2h",
     text: "I need this petition to get to the highest of levels.",
@@ -140,12 +121,9 @@ export const userPosts: UserPost[] = [
   },
   {
     id: "post-3",
-    author: "Babajide Sanwo-Olu",
-    authorTitle: "Governor, Lagos State",
-    verified: true,
     moderation: "Taken down",
     postedAgo: "2h",
-    text: "The governor at the office today! \u{1F44D}✨",
+    text: "At the office today! \u{1F44D}✨",
     likes: 247,
     comments: 247,
     shares: 18,
@@ -153,9 +131,6 @@ export const userPosts: UserPost[] = [
   },
   {
     id: "post-4",
-    author: "Babajide Sanwo-Olu",
-    authorTitle: "Governor, Lagos State",
-    verified: true,
     moderation: "Appealed",
     postedAgo: "2h",
     text: "I need this petition to get to the highest of levels.",
@@ -172,9 +147,6 @@ export const userPosts: UserPost[] = [
   },
   {
     id: "post-5",
-    author: "Babajide Sanwo-Olu",
-    authorTitle: "Governor, Lagos State",
-    verified: true,
     moderation: null,
     postedAgo: "2h",
     text: "I need this petition to get to the highest of levels.",
@@ -183,9 +155,7 @@ export const userPosts: UserPost[] = [
     shares: 18,
   },
 ];
-
 export type RequestStatus = "Pending" | "Approved" | "Rejected";
-
 export const roleChangeRequests = [
   { id: "RC-1041", name: "Adaeze Okafor", email: "adaeze.ok@gmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Won local government chairmanship election", date: "Jun 9, 2025", status: "Pending" as RequestStatus },
   { id: "RC-1040", name: "Bolaji Adewale", email: "bolaji.a@outlook.com", currentRole: "Citizen", requestedRole: "Page Admin", reason: "Managing official party page", date: "Jun 8, 2025", status: "Pending" as RequestStatus },
@@ -194,9 +164,7 @@ export const roleChangeRequests = [
   { id: "RC-1033", name: "Funke Alabi", email: "funke.alabi@hotmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Insufficient verification documents", date: "Jun 3, 2025", status: "Rejected" as RequestStatus },
   { id: "RC-1030", name: "Emeka Nwosu", email: "emeka.n@icloud.com", currentRole: "Page", requestedRole: "Page Admin", reason: "Taking over page management", date: "Jun 1, 2025", status: "Approved" as RequestStatus },
 ];
-
 export type AccreditationStatus = "Accredited" | "Pending" | "Revoked";
-
 export const electionObservers = [
   { id: "EO-204", name: "Ngozi Umeh", organization: "YIAGA Africa", email: "n.umeh@yiaga.org", state: "Lagos", election: "2027 General Election", status: "Accredited" as AccreditationStatus },
   { id: "EO-203", name: "Tunde Bakare", organization: "Transition Monitoring Group", email: "t.bakare@tmg.ng", state: "Oyo", election: "2027 General Election", status: "Accredited" as AccreditationStatus },
@@ -205,9 +173,7 @@ export const electionObservers = [
   { id: "EO-195", name: "Blessing Chukwu", organization: "NDI Nigeria", email: "b.chukwu@ndi.org", state: "Anambra", election: "2025 Bye-Election", status: "Revoked" as AccreditationStatus },
   { id: "EO-192", name: "Ibrahim Sule", organization: "Situation Room", email: "i.sule@situationroom.ng", state: "Kaduna", election: "2027 General Election", status: "Pending" as AccreditationStatus },
 ];
-
 export type CampaignStatus = "Active" | "Completed";
-
 export const topCampaigns = [
   {
     campaign: "Political Campaign Q1 2024",

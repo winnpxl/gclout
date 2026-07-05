@@ -124,7 +124,12 @@ function PostEmbed({ embed }: { embed: NonNullable<UserPost["embed"]> }) {
   );
 }
 
-function PostCard({ post }: { post: UserPost }) {
+interface AuthorInfo {
+  name: string;
+  title: string;
+}
+
+function PostCard({ post, author }: { post: UserPost; author: AuthorInfo }) {
   return (
     <article className="border-b border-gray-100 py-5 last:border-b-0">
       <div className="flex items-start justify-between">
@@ -133,11 +138,9 @@ function PostCard({ post }: { post: UserPost }) {
           <div>
             <div className="flex items-center gap-1.5">
               <span className="text-sm font-semibold text-gray-900">
-                {post.author}
+                {author.name}
               </span>
-              {post.verified && (
-                <BadgeCheck size={15} className="fill-primary text-white" />
-              )}
+              <BadgeCheck size={15} className="fill-primary text-white" />
               {post.moderation && (
                 <span
                   className={cn(
@@ -151,7 +154,7 @@ function PostCard({ post }: { post: UserPost }) {
               )}
             </div>
             <div className="text-xs text-gray-500">
-              {post.authorTitle} &bull; Following
+              {author.title} &bull; Following
             </div>
           </div>
         </div>
@@ -182,7 +185,7 @@ function PostCard({ post }: { post: UserPost }) {
   );
 }
 
-export function UserContentTab() {
+export function UserContentTab({ author }: { author: AuthorInfo }) {
   const [filter, setFilter] = useState<(typeof filters)[number]>("All posts");
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -228,7 +231,7 @@ export function UserContentTab() {
 
       <div className="mt-2">
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} author={author} />
         ))}
         {posts.length === 0 && (
           <div className="py-10 text-center text-sm text-gray-500">

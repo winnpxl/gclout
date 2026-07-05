@@ -181,7 +181,9 @@ export default function UserProfilePage({
           </section>
         </div>
       ) : tab === "Content" ? (
-        <UserContentTab />
+        <UserContentTab
+          author={{ name: user.name, title: `${user.role}, ${p.state} State` }}
+        />
       ) : (
         <div className="mt-6 rounded-xl border border-gray-200 bg-white p-10 text-center text-sm text-gray-500">
           {tab} for {user.name} coming soon.
