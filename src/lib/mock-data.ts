@@ -74,7 +74,31 @@ export interface UserProfile {
 export interface RoleApplication {
   requestedRole: string;
   submitted: string;
+  party?: string;
+  position?: string;
+  electionYear?: string;
+  membershipId?: string;
 }
+
+export const applicationStatement = `My fellow citizens of Tikistan, I stand before you today, not merely as a candidate for governorship, but as a fellow Nigerian, deeply invested in the prosperity and well-being of our beloved state. I have witnessed firsthand the challenges that plague our communities: the crippling poverty, the decaying infrastructure, the insecurity that casts a long shadow over our lives, and the pervasive lack of opportunity that stifles the potential of our youth. I understand your frustrations, your anxieties, and your yearning for a better future.
+
+My intent is clear: to usher in a new dawn for Tikistan, a dawn characterized by transparency, accountability, and a relentless pursuit of progress for all. I am not driven by personal ambition, but by a profound sense of duty to serve the people who have shaped me, the people who deserve a government that truly represents their interests.
+
+Our state is endowed with immense potential, yet this potential remains largely untapped. We possess fertile lands, abundant natural resources, and a vibrant, resilient population. But we have been held back by systemic failures, by corruption that siphons away our resources, and by a lack of strategic vision that has left us trailing behind.
+
+My administration will be guided by the following principles:
+
+1. Economic Revitalization: We will prioritize the creation of sustainable jobs through strategic investments in agriculture, manufacturing, and technology. We will empower our local entrepreneurs by providing access to capital, training, and mentorship. We will diversify our economy, moving away from over-reliance on volatile sectors, and fostering innovation to create new avenues for growth. We will invest in infrastructure, including roads, power, and water, to create a conducive environment for businesses to thrive.
+
+2. Security and Peace: The security of our citizens is paramount. We will work tirelessly to restore peace and stability to our communities. We will strengthen our security agencies, equip them with the necessary resources, and foster collaboration between them and local communities. We will address the root causes of insecurity, including poverty, inequality, and lack of opportunity. We will promote dialogue and reconciliation to heal the wounds of division and build a more harmonious society.
+
+3. Education and Healthcare: We will invest in quality education at all levels, ensuring that our children have the skills and knowledge they need to succeed in the 21st century. We will revitalize our healthcare system, making it accessible and affordable for all. We will prioritize preventive care and invest in the training of healthcare professionals. We will ensure that our hospitals are equipped with the necessary facilities and medications to provide quality care.
+
+4. Good Governance and Transparency: We will run a government that is transparent, accountable, and responsive to the needs of the people. We will fight corruption at all levels, ensuring that public resources are used for the benefit of all citizens. We will promote participatory governance, engaging with communities and civil society organizations to ensure that their voices are heard.
+
+5. Youth Empowerment: Our youth are the future of our state. We will invest in their education, skills training, and entrepreneurship. We will create opportunities for them to participate in the political process and contribute to the development of our state. We will provide them with platforms to express their creativity and innovation.
+
+I am not offering empty promises. I am offering a commitment, a commitment to work tirelessly, with integrity and dedication, to build a Tikistan where everyone has the opportunity to thrive. I understand the challenges ahead, but I am confident that together, we can overcome`;
 
 export interface AdminUser {
   id: string;
@@ -90,7 +114,7 @@ export interface AdminUser {
 }
 
 export const users: AdminUser[] = [
-  { id: "rebecca-bashir", name: "Rebecca Bashir", email: "beccahye@icloud.com", phone: "+234 812 004 5477", role: "Citizen", status: "Active" as UserStatus, lastLogin: "Dec 1, 2024, 9:30", partyMember: "APC member", pendingApplication: { requestedRole: "Elected Rep", submitted: "June 2, 2025" } as RoleApplication, profile: { dateOfBirth: "April 16, 1999", country: "Nigeria", nationality: "Nigerian", state: "Lagos", ward: "Makoko", accountType: "Citizen", partyAffiliation: "Labour Party", dateJoined: "June 24, 2023", joinedAs: "Member" } as UserProfile },
+  { id: "rebecca-bashir", name: "Rebecca Bashir", email: "beccahye@icloud.com", phone: "+234 812 004 5477", role: "Citizen", status: "Active" as UserStatus, lastLogin: "Dec 1, 2024, 9:30", partyMember: "APC member", pendingApplication: { requestedRole: "Elected Rep", submitted: "May 17th, 2025", party: "APC", position: "Local Council Representative", electionYear: "2023" } as RoleApplication, profile: { dateOfBirth: "April 16, 1999", country: "Nigeria", nationality: "Nigerian", state: "Lagos", ward: "Makoko", accountType: "Citizen", partyAffiliation: "Labour Party", dateJoined: "June 24, 2023", joinedAs: "Member" } as UserProfile },
   { id: "lydia-durojaiye", name: "Lydia Durojaiye", email: "phoenixbaker@outlook.com", phone: "+234 909 078 2553", role: "Elected Rep", status: "Suspended" as UserStatus, lastLogin: "Nov 1, 2025, 9:30", profile: { dateOfBirth: "August 2, 1985", country: "Nigeria", nationality: "Nigerian", state: "Oyo", ward: "Ibadan North", accountType: "Elected Rep", partyAffiliation: "APC", dateJoined: "March 12, 2022", joinedAs: "Representative" } as UserProfile },
   { id: "candice-woo", name: "Candice Woo", email: "candicr@aol.com", phone: "+234 915 899 2253", role: "Appointed Rep", status: "Active" as UserStatus, lastLogin: "Oct 1, 2025, 9:30", profile: { dateOfBirth: "January 30, 1990", country: "Nigeria", nationality: "Nigerian", state: "Abuja FCT", ward: "Garki", accountType: "Appointed Rep", partyAffiliation: "PDP", dateJoined: "May 5, 2023", joinedAs: "Representative" } as UserProfile },
   { id: "susan-adeleke", name: "Susan Adeleke", email: "suan@gmail.com", phone: "+234 814 008 9294", role: "Citizen", status: "Suspended" as UserStatus, lastLogin: "Jul 1, 2025, 9:30", profile: { dateOfBirth: "October 11, 1995", country: "Nigeria", nationality: "Nigerian", state: "Ogun", ward: "Abeokuta South", accountType: "Citizen", partyAffiliation: "None", dateJoined: "August 19, 2023", joinedAs: "Member" } as UserProfile },

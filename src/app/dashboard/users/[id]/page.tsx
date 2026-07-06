@@ -8,7 +8,11 @@ import {
   SuspendUserModal,
   ReactivateUserModal,
   DowngradeUserModal,
+  ApplicationReviewModal,
+  RejectApplicationModal,
+  type ApplicationField,
 } from "@/components/dashboard/modals";
+import { applicationStatement } from "@/lib/mock-data";
 import { UserContentTab } from "@/components/dashboard/UserContentTab";
 import { UserAnalyticsTab } from "@/components/dashboard/UserAnalyticsTab";
 import { users, type UserStatus } from "@/lib/mock-data";
@@ -60,8 +64,9 @@ export default function UserProfilePage({
   const [role, setRole] = useState(user?.role ?? "");
   const [tab, setTab] = useState<(typeof tabs)[number]>("Overview");
   const [modal, setModal] = useState<
-    "suspend" | "reactivate" | "downgrade" | null
+    "suspend" | "reactivate" | "downgrade" | "application" | "reject" | null
   >(null);
+  const [application, setApplication] = useState(user?.pendingApplication);
 
   if (!user || status === null) {
     notFound();
@@ -137,9 +142,10 @@ export default function UserProfilePage({
               Reactivate user
             </button>
           )}
-          {user.pendingApplication && !elevated && (
+          {application && !elevated && (
             <button
               type="button"
+              onClick={() => setModal("application")}
               className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
             >
               View application
@@ -235,6 +241,47 @@ export default function UserProfilePage({
           onClose={() => setModal(null)}
           onConfirm={() => {
             setStatus("Active");
+            setModal(null);
+          }}
+        />
+      )}
+      {modal === "application" && application && (
+        <ApplicationReviewModal
+          fields={
+            [
+              { label: "Applicant", value: user.name },
+              application.position
+                ? { label: "Position", value: application.position }
+                : { label: "Requested Role", value: application.requestedRole },
+              application.electionYear && {
+                label: "Election Year",
+                value: application.electionYear,
+              },
+              application.party && { label: "Party", value: application.party },
+              application.membershipId && {
+                label: "Membership ID",
+                value: application.membershipId,
+              },
+              { label: "Status", value: "Pending" },
+              { label: "Date Applied", value: application.submitted },
+            ].filter(Boolean) as ApplicationField[]
+          }
+          statement={applicationStatement}
+          onClose={() => setModal(null)}
+          onReject={() => setModal("reject")}
+          onUpgrade={() => {
+            setRole(application.requestedRole);
+            setApplication(undefined);
+            setModal(null);
+          }}
+        />
+      )}
+      {modal === "reject" && application && (
+        <RejectApplicationModal
+          applicantName={user.name}
+          onClose={() => setModal(null)}
+          onConfirm={() => {
+            setApplication(undefined);
             setModal(null);
           }}
         />

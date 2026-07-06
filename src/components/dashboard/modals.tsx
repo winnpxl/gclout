@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { AlertOctagon, Ban, Calendar, ChevronDown, Voicemail, X } from "lucide-react";
+import {
+  AlertOctagon,
+  Ban,
+  Calendar,
+  ChevronDown,
+  FileText,
+  UserCog,
+  Voicemail,
+  X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function ModalShell({
@@ -240,6 +249,120 @@ export function ReactivateUserModal({
         </button>
       </div>
     </ModalShell>
+  );
+}
+
+export interface ApplicationField {
+  label: string;
+  value: string;
+}
+
+interface ApplicationReviewModalProps {
+  title?: string;
+  fields: ApplicationField[];
+  statement: string;
+  documentName?: string;
+  documentSize?: string;
+  onClose: () => void;
+  onReject: () => void;
+  onUpgrade: () => void;
+}
+
+export function ApplicationReviewModal({
+  title = "Upgrade request",
+  fields,
+  statement,
+  documentName = "Membership certificate.pdf",
+  documentSize = "4.2 MB",
+  onClose,
+  onReject,
+  onUpgrade,
+}: ApplicationReviewModalProps) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        className="flex max-h-[90vh] w-full max-w-md flex-col rounded-2xl bg-white shadow-xl"
+      >
+        <div className="flex items-start justify-between p-5 pb-0">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-600">
+            <UserCog size={16} />
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close dialog"
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-5">
+          <h2 className="mt-3 text-base font-semibold text-gray-900">{title}</h2>
+          <p className="mt-1 text-sm text-gray-500">
+            This user has requested an upgrade, kindly review and take action.
+          </p>
+
+          <div className="mt-4 divide-y divide-gray-100 rounded-xl bg-gray-50 px-4">
+            {fields.map((f) => (
+              <div key={f.label} className="flex items-center justify-between py-3">
+                <span className="text-sm text-gray-500">{f.label}</span>
+                <span className="text-sm font-medium text-gray-900">
+                  {f.value}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3 rounded-xl bg-gray-50 p-4">
+            <div className="text-xs text-gray-500">Supporting Document</div>
+            <div className="mt-2 flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded bg-red-600 text-white">
+                <FileText size={16} />
+              </span>
+              <div>
+                <div className="text-sm font-medium text-gray-900">
+                  {documentName}
+                </div>
+                <div className="text-xs text-gray-500">{documentSize}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-xl bg-gray-50 p-4">
+            <div className="text-xs text-gray-500">Statement of Intent</div>
+            <div className="mt-2 space-y-3 text-sm leading-relaxed text-gray-700">
+              {statement.split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-5">
+          <button
+            type="button"
+            onClick={onReject}
+            className="flex-1 rounded-lg border border-red-300 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50"
+          >
+            Reject application
+          </button>
+          <button
+            type="button"
+            onClick={onUpgrade}
+            className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700"
+          >
+            Upgrade user
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

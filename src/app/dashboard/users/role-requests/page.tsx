@@ -10,8 +10,15 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { RejectApplicationModal } from "@/components/dashboard/modals";
-import { roleChangeRequests, type RequestStatus } from "@/lib/mock-data";
+import {
+  ApplicationReviewModal,
+  RejectApplicationModal,
+} from "@/components/dashboard/modals";
+import {
+  applicationStatement,
+  roleChangeRequests,
+  type RequestStatus,
+} from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusStyles: Record<RequestStatus, string> = {
@@ -26,6 +33,9 @@ export default function RoleChangeRequestsPage() {
   const [rejecting, setRejecting] = useState<{ id: string; name: string } | null>(
     null
   );
+  const [reviewing, setReviewing] = useState<
+    (typeof roleChangeRequests)[number] | null
+  >(null);
 
   const q = query.trim().toLowerCase();
   const filtered = q
@@ -101,7 +111,11 @@ export default function RoleChangeRequestsPage() {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {filtered.map((r) => (
-              <tr key={r.id} className="hover:bg-gray-50/50">
+              <tr
+                key={r.id}
+                onClick={() => setReviewing(r)}
+                className="cursor-pointer hover:bg-gray-50/50"
+              >
                 <td className="px-4 py-4 text-sm text-gray-600">{r.id}</td>
                 <td className="px-4 py-4">
                   <div className="text-sm font-medium text-gray-900">{r.name}</div>
@@ -127,7 +141,10 @@ export default function RoleChangeRequestsPage() {
                 </td>
                 <td className="px-4 py-4">
                   {r.status === "Pending" ? (
-                    <div className="flex items-center gap-2">
+                    <div
+                      className="flex items-center gap-2"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <button
                         type="button"
                         onClick={() => setStatus(r.id, "Approved")}
@@ -181,6 +198,27 @@ export default function RoleChangeRequestsPage() {
         </div>
       </div>
 
+      {reviewing && (
+        <ApplicationReviewModal
+          fields={[
+            { label: "Applicant", value: reviewing.name },
+            { label: "Requested Role", value: reviewing.requestedRole },
+            { label: "Current Role", value: reviewing.currentRole },
+            { label: "Status", value: reviewing.status },
+            { label: "Date Applied", value: reviewing.date },
+          ]}
+          statement={applicationStatement}
+          onClose={() => setReviewing(null)}
+          onReject={() => {
+            setRejecting({ id: reviewing.id, name: reviewing.name });
+            setReviewing(null);
+          }}
+          onUpgrade={() => {
+            setStatus(reviewing.id, "Approved");
+            setReviewing(null);
+          }}
+        />
+      )}
       {rejecting && (
         <RejectApplicationModal
           applicantName={rejecting.name}
