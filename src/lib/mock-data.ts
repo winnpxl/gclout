@@ -113,6 +113,25 @@ export interface AdminUser {
   profile: UserProfile;
 }
 
+export type BillingReviewStatus = "Approved" | "Pending" | "Rejected";
+export type BillingPaymentStatus = "Paid" | "Refunded";
+
+export interface BillingRecord {
+  id: string;
+  contentType: string;
+  duration: string;
+  amount: string;
+  reviewStatus: BillingReviewStatus;
+  paymentStatus: BillingPaymentStatus;
+  date: string;
+}
+
+export const billingRecords: BillingRecord[] = [
+  { id: "AD20492", contentType: "Text & Image", duration: "5 days", amount: "₦7,000", reviewStatus: "Rejected", paymentStatus: "Refunded", date: "Dec 1, 2025" },
+  { id: "AD20492", contentType: "Image-only", duration: "7 days", amount: "₦15,000", reviewStatus: "Pending", paymentStatus: "Paid", date: "Nov 1, 2025" },
+  { id: "AD20485", contentType: "Text-only", duration: "3 days", amount: "₦3,000", reviewStatus: "Approved", paymentStatus: "Paid", date: "Oct 1, 2025" },
+];
+
 export const users: AdminUser[] = [
   { id: "rebecca-bashir", name: "Rebecca Bashir", email: "beccahye@icloud.com", phone: "+234 812 004 5477", role: "Citizen", status: "Active" as UserStatus, lastLogin: "Dec 1, 2024, 9:30", partyMember: "APC member", pendingApplication: { requestedRole: "Elected Rep", submitted: "May 17th, 2025", party: "APC", position: "Local Council Representative", electionYear: "2023" } as RoleApplication, profile: { dateOfBirth: "April 16, 1999", country: "Nigeria", nationality: "Nigerian", state: "Lagos", ward: "Makoko", accountType: "Citizen", partyAffiliation: "Labour Party", dateJoined: "June 24, 2023", joinedAs: "Member" } as UserProfile },
   { id: "lydia-durojaiye", name: "Lydia Durojaiye", email: "phoenixbaker@outlook.com", phone: "+234 909 078 2553", role: "Elected Rep", status: "Suspended" as UserStatus, lastLogin: "Nov 1, 2025, 9:30", profile: { dateOfBirth: "August 2, 1985", country: "Nigeria", nationality: "Nigerian", state: "Oyo", ward: "Ibadan North", accountType: "Elected Rep", partyAffiliation: "APC", dateJoined: "March 12, 2022", joinedAs: "Representative" } as UserProfile },
@@ -122,6 +141,7 @@ export const users: AdminUser[] = [
   { id: "toyin-oyidamola", name: "Toyin Oyidamola", email: "toyintomato@hotmail.com", phone: "+234 904 899 1379", role: "Page", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30", profile: { dateOfBirth: "December 25, 1992", country: "Nigeria", nationality: "Nigerian", state: "Osun", ward: "Osogbo", accountType: "Page", partyAffiliation: "None", dateJoined: "July 30, 2024", joinedAs: "Page" } as UserProfile },
   { id: "mary-obubra", name: "Mary Obubra", email: "matuyui@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Active" as UserStatus, lastLogin: "Jun 1, 2025, 9:30", profile: { dateOfBirth: "March 3, 1993", country: "Nigeria", nationality: "Nigerian", state: "Cross River", ward: "Obubra", accountType: "Page Admin", partyAffiliation: "None", dateJoined: "September 14, 2023", joinedAs: "Admin" } as UserProfile },
   { id: "ugochi-dochie", name: "Ugochi Dochie", email: "ugoo@hotmail.com", phone: "+234 904 899 1379", role: "Page Admin", status: "Suspended" as UserStatus, lastLogin: "Jun 1, 2025, 9:30", profile: { dateOfBirth: "May 20, 1991", country: "Nigeria", nationality: "Nigerian", state: "Enugu", ward: "Nsukka", accountType: "Page Admin", partyAffiliation: "None", dateJoined: "November 8, 2023", joinedAs: "Admin" } as UserProfile },
+  { id: "adaeze-adcorp", name: "Adaeze Nwachukwu", email: "adaeze@adcorp.ng", phone: "+234 802 334 7810", role: "Advertiser", status: "Active" as UserStatus, lastLogin: "Jun 10, 2025, 8:15", profile: { dateOfBirth: "February 14, 1987", country: "Nigeria", nationality: "Nigerian", state: "Lagos", ward: "Victoria Island", accountType: "Advertiser", partyAffiliation: "None", dateJoined: "January 10, 2024", joinedAs: "Advertiser" } as UserProfile },
 ];
 export type PostModeration = "Flagged" | "Taken down" | "Appealed" | null;
 export interface UserPost {

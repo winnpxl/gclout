@@ -15,10 +15,18 @@ import {
 import { applicationStatement } from "@/lib/mock-data";
 import { UserContentTab } from "@/components/dashboard/UserContentTab";
 import { UserAnalyticsTab } from "@/components/dashboard/UserAnalyticsTab";
+import { BillingsTab } from "@/components/dashboard/BillingsTab";
 import { users, type UserStatus } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
-const tabs = ["Overview", "Content", "Analytics"] as const;
+const citizenTabs = ["Overview", "Content", "Analytics"];
+const advertiserTabs = [
+  "Overview",
+  "Contents",
+  "Submitted contents",
+  "Billings",
+  "Analytics",
+];
 
 function StatusPill({ status }: { status: UserStatus }) {
   return (
@@ -62,7 +70,7 @@ export default function UserProfilePage({
   const user = users.find((u) => u.id === id);
   const [status, setStatus] = useState<UserStatus | null>(user?.status ?? null);
   const [role, setRole] = useState(user?.role ?? "");
-  const [tab, setTab] = useState<(typeof tabs)[number]>("Overview");
+  const [tab, setTab] = useState("Overview");
   const [modal, setModal] = useState<
     "suspend" | "reactivate" | "downgrade" | "application" | "reject" | null
   >(null);
@@ -76,6 +84,8 @@ export default function UserProfilePage({
   const lastName = rest.join(" ");
   const p = user.profile;
   const elevated = role === "Elected Rep" || role === "Appointed Rep";
+  const isAdvertiser = user.role === "Advertiser";
+  const tabs = isAdvertiser ? advertiserTabs : citizenTabs;
 
   return (
     <main className="px-6 py-6">
@@ -101,7 +111,11 @@ export default function UserProfilePage({
           <div className="pb-1">
             <h2 className="text-2xl font-semibold text-gray-900">{user.name}</h2>
             <div className="mt-2 flex items-center gap-2">
-              {user.partyMember ? (
+              {isAdvertiser ? (
+                <span className="rounded-full border border-red-200 bg-red-50 px-3 py-0.5 text-xs font-medium text-red-500">
+                  Advertiser
+                </span>
+              ) : user.partyMember ? (
                 <span className="rounded-full border border-purple-200 bg-purple-50 px-3 py-0.5 text-xs font-medium text-purple-700">
                   {user.partyMember}
                 </span>
@@ -215,10 +229,17 @@ export default function UserProfilePage({
             </div>
           </section>
         </div>
-      ) : tab === "Content" ? (
+      ) : tab === "Content" || tab === "Contents" ? (
         <UserContentTab
           author={{ name: user.name, title: `${user.role}, ${p.state} State` }}
         />
+      ) : tab === "Submitted contents" ? (
+        <UserContentTab
+          author={{ name: user.name, title: `${user.role}, ${p.state} State` }}
+          heading="Ads pending review"
+        />
+      ) : tab === "Billings" ? (
+        <BillingsTab />
       ) : (
         <UserAnalyticsTab
           author={{ name: user.name, title: `${user.role}, ${p.state} State` }}

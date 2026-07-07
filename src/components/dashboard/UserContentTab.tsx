@@ -185,7 +185,13 @@ function PostCard({ post, author }: { post: UserPost; author: AuthorInfo }) {
   );
 }
 
-export function UserContentTab({ author }: { author: AuthorInfo }) {
+export function UserContentTab({
+  author,
+  heading = "Uploaded posts",
+}: {
+  author: AuthorInfo;
+  heading?: string;
+}) {
   const [filter, setFilter] = useState<(typeof filters)[number]>("All posts");
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -197,7 +203,7 @@ export function UserContentTab({ author }: { author: AuthorInfo }) {
   return (
     <div className="mt-6 rounded-xl border border-gray-200 bg-white px-6 py-5">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">Uploaded posts</h3>
+        <h3 className="text-base font-semibold text-gray-900">{heading}</h3>
         <div className="relative">
           <button
             type="button"
