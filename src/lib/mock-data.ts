@@ -323,6 +323,20 @@ export const adminPosts: AdminOwnPost[] = [
   },
 ];
 
+export interface Politician {
+  name: string;
+  title: string;
+}
+
+export const politicians: Politician[] = [
+  { name: "Bola Tinubu", title: "President, Federal Republic of Nigeria" },
+  { name: "Balogun Abdullahi Oladipupo", title: "Senator, Lagos West" },
+  { name: "Babajide Sanwo-Olu", title: "Governor, Lagos State" },
+  { name: "Peter Obi", title: "Former Governor, Anambra State" },
+  { name: "Atiku Abubakar", title: "Former Vice President of Nigeria" },
+  { name: "Aminu Tambuwal", title: "Senator, Sokoto South" },
+];
+
 export type RequestStatus = "Pending" | "Approved" | "Rejected";
 export const roleChangeRequests = [
   { id: "RC-1041", name: "Adaeze Okafor", email: "adaeze.ok@gmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Won local government chairmanship election", date: "Jun 9, 2025", status: "Pending" as RequestStatus },

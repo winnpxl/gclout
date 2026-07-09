@@ -200,8 +200,6 @@ export default function YourPostsPage() {
       )}
       {modal === "integrity" && (
         <CreateIntegrityPollModal
-          subjectName="Balogun Abdullahi Oladipupo"
-          subjectTitle="President, Federal Republic of Nigeria"
           onClose={() => setModal(null)}
           onPost={(text) => addPost({ text, kind: "poll" })}
         />
