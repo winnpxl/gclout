@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   AlignLeft,
   ArrowLeft,
@@ -23,12 +23,88 @@ import {
 import { politicians, users } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
-const galleryColors = [
-  "bg-gray-800",
-  "bg-gray-900",
-  "bg-amber-700",
-  "bg-slate-800",
+const MAX_IMAGES = 4;
+
+const quickEmojis = [
+  "😀", "😂", "😊", "😍", "🤔", "👍", "👏", "🙏",
+  "🔥", "🎉", "❤️", "💪", "🇳🇬", "🗳️", "📢", "✊",
 ];
+
+const pollDurations = ["1 day", "3 days", "7 days", "2 weeks"];
+
+function EmojiPicker({ onPick }: { onPick: (emoji: string) => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        aria-label="Add emoji"
+        onClick={() => setOpen((v) => !v)}
+        className="hover:text-primary"
+      >
+        <Smile size={17} />
+      </button>
+      {open && (
+        <div className="absolute bottom-8 left-0 z-20 grid w-48 grid-cols-8 gap-1 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+          {quickEmojis.map((e) => (
+            <button
+              key={e}
+              type="button"
+              onClick={() => {
+                onPick(e);
+                setOpen(false);
+              }}
+              className="rounded p-0.5 text-base hover:bg-gray-100"
+            >
+              {e}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DurationPicker({
+  value,
+  onChange,
+}: {
+  value: string | null;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+      >
+        {value ?? "Select poll duration"} <ChevronDown size={14} />
+      </button>
+      {open && (
+        <div className="absolute bottom-7 left-0 z-20 w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+          {pollDurations.map((d) => (
+            <button
+              key={d}
+              type="button"
+              onClick={() => {
+                onChange(d);
+                setOpen(false);
+              }}
+              className={cn(
+                "block w-full px-3 py-1.5 text-left text-sm hover:bg-gray-50",
+                d === value ? "font-medium text-primary" : "text-gray-700"
+              )}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ------------------------------ Who can reply ----------------------------- */
 
@@ -270,18 +346,18 @@ function TagPeoplePanel({
 function ComposerToolbar({
   onAddImage,
   onTogglePoll,
+  onEmoji,
 }: {
   onAddImage: () => void;
   onTogglePoll: () => void;
+  onEmoji: (emoji: string) => void;
 }) {
   return (
     <div className="flex items-center gap-4 text-gray-500">
       <button type="button" aria-label="Add image" onClick={onAddImage} className="hover:text-primary">
         <ImagePlus size={17} />
       </button>
-      <button type="button" aria-label="Add emoji" className="hover:text-primary">
-        <Smile size={17} />
-      </button>
+      <EmojiPicker onPick={onEmoji} />
       <button type="button" aria-label="Add poll" onClick={onTogglePoll} className="hover:text-primary">
         <ListTodo size={17} />
       </button>
@@ -304,6 +380,8 @@ function ComposerToolbar({
 export interface NewPost {
   text: string;
   kind: "post" | "media" | "poll";
+  images?: string[];
+  poll?: { options: string[]; duration: string };
 }
 
 interface CreateContentModalProps {
@@ -316,16 +394,27 @@ type ComposerView = "main" | "description" | "tagPeople";
 export function CreateContentModal({ onClose, onPost }: CreateContentModalProps) {
   const [view, setView] = useState<ComposerView>("main");
   const [text, setText] = useState("");
-  const [images, setImages] = useState(0);
+  const [images, setImages] = useState<string[]>([]);
   const [description, setDescription] = useState("");
   const [tagged, setTagged] = useState<TaggedPerson[]>([]);
   const [poll, setPoll] = useState(false);
   const [pollQuestion, setPollQuestion] = useState("");
   const [options, setOptions] = useState(["Yes", "No"]);
+  const [duration, setDuration] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function onFilesSelected(files: FileList | null) {
+    if (!files) return;
+    const urls = Array.from(files)
+      .slice(0, MAX_IMAGES - images.length)
+      .map((f) => URL.createObjectURL(f));
+    setImages((prev) => [...prev, ...urls]);
+  }
 
   const canPost = poll
-    ? pollQuestion.trim().length > 0
-    : text.trim().length > 0 || images > 0;
+    ? pollQuestion.trim().length > 0 &&
+      options.filter((o) => o.trim()).length >= 2
+    : text.trim().length > 0 || images.length > 0;
 
   const tagLabel =
     tagged.length === 0
@@ -340,7 +429,14 @@ export function CreateContentModal({ onClose, onPost }: CreateContentModalProps)
     if (!canPost) return;
     onPost({
       text: poll ? pollQuestion : text,
-      kind: poll ? "poll" : images > 0 ? "media" : "post",
+      kind: poll ? "poll" : images.length > 0 ? "media" : "post",
+      images: images.length > 0 ? images : undefined,
+      poll: poll
+        ? {
+            options: options.filter((o) => o.trim()),
+            duration: duration ?? "1 day",
+          }
+        : undefined,
     });
     onClose();
   }
@@ -404,32 +500,32 @@ export function CreateContentModal({ onClose, onPost }: CreateContentModalProps)
                       className="w-full resize-none text-base text-gray-900 placeholder:text-gray-400 focus:outline-none"
                     />
 
-                    {images === 1 && (
-                      <div className="relative mt-2">
-                        <div className="h-64 w-full rounded-xl bg-gradient-to-br from-gray-800 via-gray-900 to-black" />
-                        <button
-                          type="button"
-                          onClick={() => setImages(0)}
-                          aria-label="Remove image"
-                          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-900/70 text-white hover:bg-gray-900"
-                        >
-                          <X size={15} />
-                        </button>
-                      </div>
-                    )}
-                    {images > 1 && (
-                      <div className="mt-2 grid grid-cols-3 gap-2">
-                        {Array.from({ length: images }).map((_, i) => (
-                          <div key={i} className="relative">
-                            <div
+                    {images.length > 0 && (
+                      <div
+                        className={cn(
+                          "mt-2 gap-2",
+                          images.length === 1 ? "block" : "grid grid-cols-3"
+                        )}
+                      >
+                        {images.map((src, i) => (
+                          <div key={src} className="relative">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={src}
+                              alt={description || `Attached image ${i + 1}`}
                               className={cn(
-                                "h-40 rounded-xl",
-                                galleryColors[i % galleryColors.length]
+                                "w-full rounded-xl object-cover",
+                                images.length === 1 ? "max-h-72" : "h-40"
                               )}
                             />
                             <button
                               type="button"
-                              onClick={() => setImages((n) => n - 1)}
+                              onClick={() => {
+                                URL.revokeObjectURL(src);
+                                setImages((prev) =>
+                                  prev.filter((s) => s !== src)
+                                );
+                              }}
                               aria-label={`Remove image ${i + 1}`}
                               className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-gray-900/70 text-white hover:bg-gray-900"
                             >
@@ -445,7 +541,7 @@ export function CreateContentModal({ onClose, onPost }: CreateContentModalProps)
                       </div>
                     )}
 
-                    {images > 0 && (
+                    {images.length > 0 && (
                       <div className="mt-3 flex items-center gap-5 text-sm text-gray-600">
                         <button
                           type="button"
@@ -496,12 +592,7 @@ export function CreateContentModal({ onClose, onPost }: CreateContentModalProps)
                       </button>
                     </div>
                     <div className="mt-3 flex items-center justify-between">
-                      <button
-                        type="button"
-                        className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
-                      >
-                        Select poll duration <ChevronDown size={14} />
-                      </button>
+                      <DurationPicker value={duration} onChange={setDuration} />
                       <button
                         type="button"
                         onClick={() => setPoll(false)}
@@ -519,12 +610,26 @@ export function CreateContentModal({ onClose, onPost }: CreateContentModalProps)
               </div>
             </div>
 
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={(e) => {
+                onFilesSelected(e.target.files);
+                e.target.value = "";
+              }}
+            />
             <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
               <ComposerToolbar
-                onAddImage={() =>
-                  setImages((n) => (n === 0 ? 1 : Math.min(n + 3, 4)))
-                }
+                onAddImage={() => fileInputRef.current?.click()}
                 onTogglePoll={() => setPoll(true)}
+                onEmoji={(emoji) =>
+                  poll
+                    ? setPollQuestion((t) => t + emoji)
+                    : setText((t) => t + emoji)
+                }
               />
               <button
                 type="button"

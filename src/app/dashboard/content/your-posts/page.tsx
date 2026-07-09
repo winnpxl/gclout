@@ -25,6 +25,60 @@ const tabs: { label: string; kind: AdminPostKind | "all" }[] = [
   { label: "Petitions", kind: "petition" },
 ];
 
+function PollCard({
+  options,
+  duration,
+}: {
+  options: string[];
+  duration: string;
+}) {
+  const [votes, setVotes] = useState<number[]>(options.map(() => 0));
+  const [voted, setVoted] = useState<number | null>(null);
+  const total = votes.reduce((a, b) => a + b, 0);
+
+  return (
+    <div className="mt-3 space-y-2">
+      {options.map((opt, i) => {
+        const pct = total > 0 ? Math.round((votes[i] / total) * 100) : 0;
+        return (
+          <button
+            key={i}
+            type="button"
+            disabled={voted !== null}
+            onClick={() => {
+              setVotes((prev) => prev.map((v, j) => (j === i ? v + 1 : v)));
+              setVoted(i);
+            }}
+            className={cn(
+              "relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm",
+              voted === null
+                ? "border-gray-200 text-gray-800 hover:border-primary hover:bg-blue-50"
+                : voted === i
+                  ? "border-primary text-gray-900"
+                  : "border-gray-200 text-gray-600"
+            )}
+          >
+            {voted !== null && (
+              <span
+                className="absolute inset-y-0 left-0 bg-blue-100"
+                style={{ width: `${pct}%` }}
+              />
+            )}
+            <span className="relative flex items-center justify-between">
+              <span>{opt}</span>
+              {voted !== null && <span className="text-xs">{pct}%</span>}
+            </span>
+          </button>
+        );
+      })}
+      <div className="text-xs text-gray-500">
+        {voted !== null ? `${total} vote${total === 1 ? "" : "s"} · ` : ""}
+        Poll runs for {duration}
+      </div>
+    </div>
+  );
+}
+
 function EventEmbed() {
   return (
     <div className="mt-3 overflow-hidden rounded-xl bg-blue-500 text-white">
@@ -70,6 +124,8 @@ export default function YourPostsPage() {
         text: post.text,
         likes: 0,
         comments: 0,
+        images: post.images,
+        poll: post.poll,
       },
       ...prev,
     ]);
@@ -176,6 +232,33 @@ export default function YourPostsPage() {
 
               <p className="mt-3 text-sm text-gray-700">{post.text}</p>
               {post.hasEventEmbed && <EventEmbed />}
+              {post.images && post.images.length > 0 && (
+                <div
+                  className={cn(
+                    "mt-3 gap-2",
+                    post.images.length === 1 ? "block" : "grid grid-cols-3"
+                  )}
+                >
+                  {post.images.map((src, i) => (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      key={src}
+                      src={src}
+                      alt={`Post image ${i + 1}`}
+                      className={cn(
+                        "w-full rounded-xl object-cover",
+                        post.images!.length === 1 ? "max-h-80" : "h-40"
+                      )}
+                    />
+                  ))}
+                </div>
+              )}
+              {post.poll && (
+                <PollCard
+                  options={post.poll.options}
+                  duration={post.poll.duration}
+                />
+              )}
 
               <div className="mt-3 flex items-center gap-6 text-sm text-gray-500">
                 <span className="flex items-center gap-1.5">

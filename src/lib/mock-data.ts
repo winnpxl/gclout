@@ -285,6 +285,8 @@ export interface AdminOwnPost {
   likes: number;
   comments: number;
   hasEventEmbed?: boolean;
+  images?: string[];
+  poll?: { options: string[]; duration: string };
 }
 
 export const adminPosts: AdminOwnPost[] = [
