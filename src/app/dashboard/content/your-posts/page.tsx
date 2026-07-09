@@ -36,6 +36,23 @@ function PollCard({
   const [voted, setVoted] = useState<number | null>(null);
   const total = votes.reduce((a, b) => a + b, 0);
 
+  function castVote(i: number) {
+    if (voted === i) {
+      // Clicking your current choice retracts the vote.
+      setVotes((prev) => prev.map((v, j) => (j === i ? v - 1 : v)));
+      setVoted(null);
+      return;
+    }
+    setVotes((prev) =>
+      prev.map((v, j) => {
+        if (j === i) return v + 1;
+        if (j === voted) return v - 1;
+        return v;
+      })
+    );
+    setVoted(i);
+  }
+
   return (
     <div className="mt-3 space-y-2">
       {options.map((opt, i) => {
@@ -44,18 +61,12 @@ function PollCard({
           <button
             key={i}
             type="button"
-            disabled={voted !== null}
-            onClick={() => {
-              setVotes((prev) => prev.map((v, j) => (j === i ? v + 1 : v)));
-              setVoted(i);
-            }}
+            onClick={() => castVote(i)}
             className={cn(
-              "relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm",
-              voted === null
-                ? "border-gray-200 text-gray-800 hover:border-primary hover:bg-blue-50"
-                : voted === i
-                  ? "border-primary text-gray-900"
-                  : "border-gray-200 text-gray-600"
+              "relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left text-sm transition-colors",
+              voted === i
+                ? "border-primary text-gray-900"
+                : "border-gray-200 text-gray-800 hover:border-primary hover:bg-blue-50"
             )}
           >
             {voted !== null && (
@@ -73,6 +84,7 @@ function PollCard({
       })}
       <div className="text-xs text-gray-500">
         {voted !== null ? `${total} vote${total === 1 ? "" : "s"} · ` : ""}
+        {voted !== null ? "Tap your choice again to undo · " : ""}
         Poll runs for {duration}
       </div>
     </div>
