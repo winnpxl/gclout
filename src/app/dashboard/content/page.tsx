@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { ListFilter, Search } from "lucide-react";
-import { contentSearchResults } from "@/lib/mock-data";
+import { ContentDetailsModal } from "@/components/dashboard/ContentDetailsModal";
+import { contentItems, type ContentItem } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 const statusStyles: Record<string, string> = {
@@ -47,13 +48,15 @@ function SearchBar({
 
 export default function ContentManagementPage() {
   const [query, setQuery] = useState("");
+  const [items, setItems] = useState(contentItems);
+  const [selected, setSelected] = useState<ContentItem | null>(null);
 
   const q = query.trim().toLowerCase();
   // Tolerate simple plurals: "petitions" should match "Petition".
   const term = q.replace(/s$/, "");
   const results = q
-    ? contentSearchResults.filter((r) =>
-        [r.title, r.description, r.author, r.type, r.id].some((f) =>
+    ? items.filter((r) =>
+        [r.title, r.description, r.author, r.type, r.id, r.keywords].some((f) =>
           f.toLowerCase().includes(term)
         )
       )
@@ -114,9 +117,11 @@ export default function ContentManagementPage() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between py-2">
-                    <span className="text-xs text-gray-500">Signatures</span>
+                    <span className="text-xs text-gray-500">
+                      {r.metricLabel}
+                    </span>
                     <span className="text-xs font-medium text-gray-900">
-                      {r.signatures}
+                      {r.metricValue}
                     </span>
                   </div>
                   <div className="flex items-center justify-between py-2">
@@ -140,6 +145,7 @@ export default function ContentManagementPage() {
 
                 <button
                   type="button"
+                  onClick={() => setSelected(r)}
                   className="mt-4 w-full rounded-lg bg-primary py-2 text-sm font-medium text-white hover:bg-blue-700"
                 >
                   Manage content
@@ -154,6 +160,25 @@ export default function ContentManagementPage() {
             </div>
           )}
         </>
+      )}
+
+      {selected && (
+        <ContentDetailsModal
+          item={selected}
+          onClose={() => setSelected(null)}
+          onTakedown={(id) => {
+            setItems((prev) =>
+              prev.map((i) =>
+                i.id === id ? { ...i, status: "Closed" as const } : i
+              )
+            );
+            setSelected(null);
+          }}
+          onDelete={(id) => {
+            setItems((prev) => prev.filter((i) => i.id !== id));
+            setSelected(null);
+          }}
+        />
       )}
     </main>
   );

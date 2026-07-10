@@ -255,24 +255,166 @@ export const userAnalytics = {
   },
 };
 
-export interface ContentSearchResult {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  type: string;
-  signatures: string;
-  status: "Active" | "Under review" | "Closed";
+export type ContentKind = "petition" | "text" | "media" | "poll";
+
+export interface ContentReport {
+  reporter: string;
+  reason: string;
   date: string;
 }
 
-export const contentSearchResults: ContentSearchResult[] = [
-  { id: "PT-1001", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Jerri Grau", type: "Petition", signatures: "8,960", status: "Active", date: "Thu 24 Jun, 2025 10:30 am" },
-  { id: "PT-1002", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Ade Salami", type: "Petition", signatures: "6,214", status: "Under review", date: "Thu 24 Jun, 2025 10:30 am" },
-  { id: "PT-1003", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Ngozi Obi", type: "Petition", signatures: "4,102", status: "Active", date: "Thu 24 Jun, 2025 10:30 am" },
-  { id: "PT-1004", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Femi Kuti", type: "Petition", signatures: "2,876", status: "Closed", date: "Thu 24 Jun, 2025 10:30 am" },
-  { id: "PT-1005", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Hauwa Bello", type: "Petition", signatures: "1,530", status: "Active", date: "Thu 24 Jun, 2025 10:30 am" },
-  { id: "PT-1006", title: "Youth Petition for Credible Electoral Process", description: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...", author: "Chuka Eze", type: "Petition", signatures: "987", status: "Under review", date: "Thu 24 Jun, 2025 10:30 am" },
+export interface ContentPollOption {
+  label: string;
+  pct: number;
+  votes: string;
+}
+
+export interface ContentAnalytics {
+  likes: string;
+  reposts: string;
+  comments: string;
+  shares: string;
+  detailsExpanded: string;
+  signatures: string;
+}
+
+export interface ContentItem {
+  id: string;
+  kind: ContentKind;
+  title: string;
+  description: string;
+  body: string;
+  author: string;
+  type: string;
+  metricLabel: string;
+  metricValue: string;
+  status: "Active" | "Under review" | "Closed";
+  date: string;
+  submittedOn: string;
+  hasCover?: boolean;
+  images?: number;
+  pollOptions?: ContentPollOption[];
+  pollTotalVotes?: string;
+  analytics: ContentAnalytics;
+  reports: ContentReport[];
+  keywords: string;
+}
+
+const sharedAnalytics: ContentAnalytics = {
+  likes: "723,451",
+  reposts: "124,986",
+  comments: "89,045",
+  shares: "723,451",
+  detailsExpanded: "2,614,923",
+  signatures: "429,451",
+};
+
+const democracyBody =
+  "Democracy is said to be 'a government of the people, by the people, and for the people,' yet none of these three measures exist in our democracy today. Rules, regulations and requirements to participate in elections or be elected for are not followed, consequently, individuals who are to be disqualified ab-initio are now holding public offices.";
+
+export const contentItems: ContentItem[] = [
+  {
+    id: "PT-1001",
+    kind: "petition",
+    title: "Youth Petition for Credible Electoral Process",
+    description:
+      "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving...",
+    body: "This petition is directed to INEC imploring them to double down on efforts against electoral malpractices involving vote buying, ballot snatching, and result manipulation across polling units nationwide.",
+    author: "Jon Snow",
+    type: "Petition",
+    metricLabel: "Signatures",
+    metricValue: "429,451",
+    status: "Active",
+    date: "Thu 24 Jun, 2025 10:30 am",
+    submittedOn: "Thu 04 Jun, 2020 07:00 am",
+    hasCover: true,
+    analytics: sharedAnalytics,
+    reports: [],
+    keywords: "nigeria election democracy content petition",
+  },
+  {
+    id: "PO-2043",
+    kind: "text",
+    title: "Democracy is said to be a government of the people",
+    description:
+      "Democracy is said to be 'a government of the people, by the people, and for the people,' yet none of these three measures exist...",
+    body: democracyBody,
+    author: "Jon Snow",
+    type: "Post",
+    metricLabel: "Comments",
+    metricValue: "89,045",
+    status: "Active",
+    date: "Wed 18 Jun, 2025 09:12 am",
+    submittedOn: "Thu 04 Jun, 2020 07:00 am",
+    analytics: sharedAnalytics,
+    reports: [],
+    keywords: "nigeria democracy election content post",
+  },
+  {
+    id: "PO-2044",
+    kind: "media",
+    title: "Democracy and the state of our institutions",
+    description:
+      "Democracy is said to be 'a government of the people, by the people, and for the people,' yet none of these three measures exist...",
+    body: democracyBody,
+    author: "Jon Snow",
+    type: "Post",
+    metricLabel: "Comments",
+    metricValue: "89,045",
+    status: "Under review",
+    date: "Mon 16 Jun, 2025 02:40 pm",
+    submittedOn: "Thu 04 Jun, 2020 07:00 am",
+    images: 4,
+    analytics: sharedAnalytics,
+    reports: [
+      { reporter: "James Akintaro", reason: "hate speech", date: "16/6/2025" },
+      { reporter: "Tobi Simakan", reason: "hate speech", date: "15/6/2025" },
+    ],
+    keywords: "nigeria democracy content post media",
+  },
+  {
+    id: "PL-3120",
+    kind: "poll",
+    title: "Most capable candidate to guide Nigeria",
+    description:
+      "In your opinion, who do you think is the most capable candidate to guide Nigeria to a better tomorrow?",
+    body: "In your opinion, who do you think is the most capable candidate to guide Nigeria to a better tomorrow?",
+    author: "Jon Snow",
+    type: "Poll",
+    metricLabel: "Total votes",
+    metricValue: "6,215,603",
+    status: "Active",
+    date: "Sun 15 Jun, 2025 11:05 am",
+    submittedOn: "Thu 04 Jun, 2020 07:00 am",
+    pollOptions: [
+      { label: "Peter Obi", pct: 90, votes: "5,594,043" },
+      { label: "Bola Ahmed Tinubu", pct: 5, votes: "310,780" },
+      { label: "Other", pct: 5, votes: "310,780" },
+    ],
+    pollTotalVotes: "6,215,603",
+    analytics: sharedAnalytics,
+    reports: [],
+    keywords: "nigeria election poll candidate content",
+  },
+  {
+    id: "PT-1002",
+    kind: "petition",
+    title: "Petition for Improved Rural Healthcare Access",
+    description:
+      "A call to expand primary healthcare centres and staffing across underserved local government areas...",
+    body: "A call to expand primary healthcare centres and staffing across underserved local government areas so that every citizen can access quality care within reach.",
+    author: "Ada Obi",
+    type: "Petition",
+    metricLabel: "Signatures",
+    metricValue: "112,004",
+    status: "Under review",
+    date: "Fri 13 Jun, 2025 08:00 am",
+    submittedOn: "Mon 01 Jun, 2020 09:00 am",
+    hasCover: true,
+    analytics: sharedAnalytics,
+    reports: [],
+    keywords: "nigeria healthcare content petition",
+  },
 ];
 
 export type AdminPostKind = "post" | "media" | "poll" | "petition";
