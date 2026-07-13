@@ -481,6 +481,116 @@ export const politicians: Politician[] = [
   { name: "Aminu Tambuwal", title: "Senator, Sokoto South" },
 ];
 
+export interface ChatMessage {
+  id: string;
+  from: "you" | "them";
+  text: string;
+  time: string;
+  attachment?: { name: string; size: string };
+  reactions?: string[];
+}
+
+export interface Conversation {
+  id: string;
+  name: string;
+  role?: string;
+  timeAgo: string;
+  snippet: string;
+  unread: boolean;
+  typing?: boolean;
+  messages: ChatMessage[];
+}
+
+export const conversations: Conversation[] = [
+  {
+    id: "boma-amachree",
+    name: "Boma Amachree",
+    role: "Citizen",
+    timeAgo: "5min ago",
+    snippet: "Hey Olivia, Katherine sent me over the latest doc. I just have a quick question about the...",
+    unread: true,
+    messages: [
+      { id: "m1", from: "them", text: "Hey Olivia, Katherine sent me over the latest doc. I just have a quick question about the timeline section.", time: "Today 2:05pm" },
+    ],
+  },
+  {
+    id: "boma-ogan",
+    name: "Boma Ogan",
+    role: "Citizen",
+    timeAgo: "20min ago",
+    snippet: "I've just published the site again. Looks like it fixed it. How weird! I'll keep an eye on it...",
+    unread: false,
+    typing: true,
+    messages: [
+      { id: "m1", from: "them", text: "Sounds good! I've gone through everything you suggested and will shoot it over.", time: "Thursday 11:39am" },
+      { id: "m2", from: "them", text: "Hey Olivia, I've finished with the requirements doc! I made some notes in the gdoc as well for Phoenix to look over.", time: "Thursday 11:40am" },
+      { id: "m3", from: "them", text: "", time: "Thursday 11:40am", attachment: { name: "Tech requirements.pdf", size: "1.2 MB" } },
+      { id: "m4", from: "you", text: "Awesome! Thanks. I'll look at this today.", time: "Thursday 11:41am" },
+      { id: "m5", from: "them", text: "No rush though — we still have to wait for Lana's designs.", time: "Thursday 11:44am" },
+      { id: "m6", from: "them", text: "Hey Olivia, can you please review the latest design when you can?", time: "Today 2:20pm" },
+      { id: "m7", from: "you", text: "Sure thing, I'll have a look today. They're looking great!", time: "Just now", reactions: ["❤️", "👌"] },
+    ],
+  },
+  {
+    id: "apc",
+    name: "All Progressives Congress (APC)",
+    role: "Political Party",
+    timeAgo: "1hr ago",
+    snippet: "You: Sure thing, I'll have a look today. They're looking great!",
+    unread: true,
+    messages: [
+      { id: "m1", from: "them", text: "Good afternoon. Sending over the campaign assets for verification.", time: "Today 1:12pm" },
+      { id: "m2", from: "you", text: "Sure thing, I'll have a look today. They're looking great!", time: "Today 1:20pm" },
+    ],
+  },
+  {
+    id: "nnaemeka-eze",
+    name: "Nnaemeka Eze",
+    role: "Citizen",
+    timeAgo: "2hr ago",
+    snippet: "Hey Liv — just wanted to say thanks for chasing up the release for me. Really...",
+    unread: false,
+    messages: [
+      { id: "m1", from: "them", text: "Hey Liv — just wanted to say thanks for chasing up the release for me. Really appreciate it.", time: "Today 12:02pm" },
+    ],
+  },
+  {
+    id: "ifedayo-okunade",
+    name: "Ifedayo Okunade",
+    role: "Page Admin",
+    timeAgo: "2hr ago",
+    snippet: "Good news!! Jack accepted the offer. I've sent over a contract for him to review but...",
+    unread: false,
+    messages: [
+      { id: "m1", from: "them", text: "Good news!! Jack accepted the offer. I've sent over a contract for him to review but he had a few questions.", time: "Today 11:48am" },
+    ],
+  },
+  {
+    id: "babajide-oyelowo",
+    name: "Babajide Oyelowo",
+    role: "Citizen",
+    timeAgo: "4hr ago",
+    snippet: "Thanks! Looks great!",
+    unread: true,
+    messages: [
+      { id: "m1", from: "you", text: "Sent over the updated verification badge for your page.", time: "Today 9:58am" },
+      { id: "m2", from: "them", text: "Thanks! Looks great!", time: "Today 10:01am" },
+    ],
+  },
+];
+
+export const messageDirectory = [
+  { name: "Sadiya Rabiu", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Fiyebo Ziworitin", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Erekosima Zighan", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Oluchi Onwudiwe", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Perebuowei Opuene", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Inengite Inengite", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Izuokumo Ebizi", title: "The President, Commander in Chief of the Armed Forces, FRN" },
+  { name: "Bola Adeyemi", title: "Party Secretary, Lagos State Chapter" },
+  { name: "Bolanle Ojo", title: "Communications Director, Abuja FCT" },
+];
+
 export type RequestStatus = "Pending" | "Approved" | "Rejected";
 export const roleChangeRequests = [
   { id: "RC-1041", name: "Adaeze Okafor", email: "adaeze.ok@gmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Won local government chairmanship election", date: "Jun 9, 2025", status: "Pending" as RequestStatus },
