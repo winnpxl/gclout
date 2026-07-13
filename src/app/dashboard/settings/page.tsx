@@ -897,13 +897,12 @@ export default function SettingsPage() {
 
   return (
     <main className="px-6 py-6">
-      {/* Cover banner + identity */}
-      <div className="relative h-40 rounded-xl bg-gradient-to-r from-orange-300 via-rose-400 to-indigo-600" />
-      <div className="flex items-end gap-4 px-4">
-        <span className="-mt-12 flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-blue-100 text-xl font-semibold text-primary shadow">
+      {/* Identity */}
+      <div className="flex items-center gap-4">
+        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-lg font-semibold text-primary">
           JA
         </span>
-        <div className="pb-1">
+        <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl font-semibold text-gray-900">
               James Akintaro
