@@ -591,6 +591,139 @@ export const messageDirectory = [
   { name: "Bolanle Ojo", title: "Communications Director, Abuja FCT" },
 ];
 
+export interface ReportStat {
+  label: string;
+  value: string;
+  change: string;
+  up: boolean;
+}
+
+export const reportOverviewStats: ReportStat[][] = [
+  [
+    { label: "Total registered users", value: "617,142,891", change: "+12.5%", up: true },
+    { label: "Active users", value: "617,128,247", change: "+12.5%", up: true },
+    { label: "Total posts created", value: "18,617,128,247", change: "+15.3%", up: true },
+    { label: "Total ads submitted", value: "262,293", change: "+12.5%", up: true },
+  ],
+  [
+    { label: "Total ads submitted", value: "262,293", change: "+12.5%", up: true },
+    { label: "Sponsored campaigns", value: "728,247", change: "+12.5%", up: true },
+    { label: "Total posts created", value: "18,617,128,247", change: "+15.3%", up: true },
+    { label: "Verification Requests", value: "324", change: "+8.2%", up: true },
+    { label: "Campaign ROI", value: "33.4M", change: "-2.1%", up: false },
+  ],
+];
+
+export const postsBreakdownStats: ReportStat[] = [
+  { label: "Total text and media posts", value: "617,142,891", change: "+12.5%", up: true },
+  { label: "Total poll posts", value: "18,617,128,247", change: "+15.3%", up: true },
+  { label: "Total petitions", value: "262,293", change: "+12.5%", up: true },
+  { label: "Total town-halls hosted", value: "262,293", change: "+12.5%", up: true },
+  { label: "Total verified chronicles", value: "617,128,247", change: "+12.5%", up: true },
+];
+
+export const advertisementStats: ReportStat[] = [
+  { label: "Total submitted", value: "18,550", change: "+12.5%", up: true },
+  { label: "Pending ads review", value: "18,545", change: "+15.3%", up: true },
+  { label: "Total campaign budget submitted", value: "69bn", change: "+12.5%", up: true },
+  { label: "Top advertisers", value: "****", change: "+12.5%", up: true },
+];
+
+export const electedRepsStats: ReportStat[] = [
+  { label: "Verified reps onboarded", value: "18,550", change: "+12.5%", up: true },
+  { label: "Posts initiated by elected reps", value: "18,545", change: "+15.3%", up: true },
+  { label: "Posts initiated by appointed reps", value: "18,545", change: "+15.3%", up: true },
+];
+
+export const monthlyReportedPosts = [
+  { month: "Jan", texts: 380, media: 260, polls: 160 },
+  { month: "Feb", texts: 420, media: 320, polls: 220 },
+  { month: "Mar", texts: 300, media: 220, polls: 140 },
+  { month: "Apr", texts: 340, media: 240, polls: 120 },
+  { month: "May", texts: 280, media: 200, polls: 130 },
+  { month: "Jun", texts: 400, media: 280, polls: 180 },
+  { month: "Jul", texts: 310, media: 230, polls: 150 },
+  { month: "Aug", texts: 360, media: 260, polls: 160 },
+  { month: "Sep", texts: 390, media: 280, polls: 170 },
+  { month: "Oct", texts: 330, media: 240, polls: 150 },
+  { month: "Nov", texts: 430, media: 310, polls: 210 },
+  { month: "Dec", texts: 300, media: 220, polls: 140 },
+];
+
+export const contentTypeDistribution = [
+  { name: "Texts", value: 42, color: "#1d4ed8" },
+  { name: "Media", value: 24, color: "#3b82f6" },
+  { name: "Polls", value: 16, color: "#60a5fa" },
+  { name: "Petitions", value: 11, color: "#93c5fd" },
+  { name: "Chronicles", value: 7, color: "#dbeafe" },
+];
+
+export const adsRankingLines = [
+  { month: "Jan", sponsored: 420, boosted: 300, organic: 180 },
+  { month: "Feb", sponsored: 460, boosted: 320, organic: 200 },
+  { month: "Mar", sponsored: 440, boosted: 310, organic: 210 },
+  { month: "Apr", sponsored: 500, boosted: 340, organic: 230 },
+  { month: "May", sponsored: 480, boosted: 360, organic: 220 },
+  { month: "Jun", sponsored: 520, boosted: 350, organic: 250 },
+  { month: "Jul", sponsored: 540, boosted: 380, organic: 260 },
+  { month: "Aug", sponsored: 560, boosted: 400, organic: 270 },
+  { month: "Sep", sponsored: 600, boosted: 420, organic: 300 },
+  { month: "Oct", sponsored: 630, boosted: 440, organic: 310 },
+  { month: "Nov", sponsored: 680, boosted: 470, organic: 340 },
+  { month: "Dec", sponsored: 720, boosted: 500, organic: 360 },
+];
+
+export interface HelpCategory {
+  id: string;
+  title: string;
+  description: string;
+  iconBg: string;
+  articles: string[];
+}
+
+export const helpCategories: HelpCategory[] = [
+  {
+    id: "user-guidelines",
+    title: "Understanding User Guidelines",
+    description:
+      "Dive deep into the community guidelines and content policies that govern user behavior. Understand the rules our users see and how they're enforced.",
+    iconBg: "bg-blue-100 text-blue-600",
+    articles: [
+      "Terms of Service",
+      "Community Guidelines",
+      "Privacy Policy",
+      "Hate Speech Definition",
+      "Spam Policy",
+    ],
+  },
+  {
+    id: "content-moderation",
+    title: "Content Moderation Best Practices",
+    description:
+      "Master the art of effective content moderation. Learn about our automated systems, human review processes, and how to apply content policies consistently.",
+    iconBg: "bg-green-100 text-green-600",
+    articles: [
+      "Guide to using the Moderation Queue",
+      "Understanding Content Violation Categories",
+      "Dealing with Repeated Offenders",
+      "How AI assists in content flagging",
+    ],
+  },
+  {
+    id: "account-security",
+    title: "Account Security & User Safety",
+    description:
+      "Tools and guidelines for protecting user accounts and ensuring a safe platform environment. Learn about preventing spam, phishing, and account takeovers.",
+    iconBg: "bg-amber-100 text-amber-600",
+    articles: [
+      "Identifying Suspicious User Activity",
+      "Steps for Account Recovery",
+      "Managing Compromised Accounts",
+      "Understanding Our Bot Detection",
+    ],
+  },
+];
+
 export type RequestStatus = "Pending" | "Approved" | "Rejected";
 export const roleChangeRequests = [
   { id: "RC-1041", name: "Adaeze Okafor", email: "adaeze.ok@gmail.com", currentRole: "Citizen", requestedRole: "Elected Rep", reason: "Won local government chairmanship election", date: "Jun 9, 2025", status: "Pending" as RequestStatus },
