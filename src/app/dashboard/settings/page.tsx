@@ -2,16 +2,22 @@
 
 import { useRef, useState } from "react";
 import {
+  Ban,
   Check,
   ChevronDown,
   Eye,
   EyeOff,
   Globe,
   Info,
-  Laptop,
+  ListFilter,
   Mail,
+  Monitor,
   MoreVertical,
-  Smartphone,
+  Pencil,
+  RefreshCw,
+  Search,
+  Trash2,
+  Upload,
   UploadCloud,
   X,
 } from "lucide-react";
@@ -676,8 +682,497 @@ function RoleManagementTab() {
   );
 }
 
+/* ---------------------------------- Team ----------------------------------- */
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  status: "Active" | "Offline";
+  role: string;
+  addedOn: string;
+  lastActive: string;
+}
+
+const memberColors = [
+  "bg-rose-100 text-rose-700",
+  "bg-blue-100 text-blue-700",
+  "bg-purple-100 text-purple-700",
+  "bg-teal-100 text-teal-700",
+  "bg-amber-100 text-amber-700",
+];
+
+function memberInitials(name: string) {
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
+function MemberModal({
+  member,
+  onClose,
+  onSave,
+}: {
+  member: TeamMember | null;
+  onClose: () => void;
+  onSave: (member: TeamMember) => void;
+}) {
+  const [name, setName] = useState(member?.name ?? "");
+  const [email, setEmail] = useState(member?.email ?? "");
+  const [role, setRole] = useState(member?.role ?? "Sub admin");
+
+  const canSave = name.trim().length > 0 && email.trim().length > 0;
+  const today = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl"
+      >
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-semibold text-gray-900">
+            {member ? "Edit team member" : "Add team member"}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close dialog"
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <X size={18} />
+          </button>
+        </div>
+        <div className="mt-4 space-y-4">
+          <div>
+            <label htmlFor="member-name" className="mb-1.5 block text-sm text-gray-700">
+              Name
+            </label>
+            <input
+              id="member-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Full name"
+              autoFocus
+              className={fieldInput}
+            />
+          </div>
+          <div>
+            <label htmlFor="member-email" className="mb-1.5 block text-sm text-gray-700">
+              Email
+            </label>
+            <input
+              id="member-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="name@example.com"
+              className={fieldInput}
+            />
+          </div>
+          <div>
+            <label htmlFor="member-role" className="mb-1.5 block text-sm text-gray-700">
+              Role
+            </label>
+            <div className="relative">
+              <select
+                id="member-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className={cn(fieldInput, "appearance-none pr-9")}
+              >
+                <option>Sub admin</option>
+                <option>Super admin</option>
+              </select>
+              <ChevronDown
+                size={16}
+                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            disabled={!canSave}
+            onClick={() =>
+              onSave({
+                id: member?.id ?? `tm-${Date.now()}`,
+                name: name.trim(),
+                email: email.trim(),
+                status: member?.status ?? "Active",
+                role,
+                addedOn: member?.addedOn ?? today,
+                lastActive: member?.lastActive ?? today,
+              })
+            }
+            className={cn(
+              "rounded-lg px-4 py-2 text-sm font-medium text-white",
+              canSave ? "bg-primary hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed"
+            )}
+          >
+            {member ? "Save changes" : "Add member"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TeamTab({
+  members,
+  setMembers,
+}: {
+  members: TeamMember[];
+  setMembers: React.Dispatch<React.SetStateAction<TeamMember[]>>;
+}) {
+  const [editing, setEditing] = useState<TeamMember | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  return (
+    <div>
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-base font-semibold text-gray-900">Team members</h2>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Manage your team members and their account permissions here.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+        >
+          Add team member
+        </button>
+      </div>
+
+      <div className="mt-5 rounded-xl border border-gray-200 bg-white">
+        <table className="w-full">
+          <thead className="border-b border-gray-100 bg-gray-50/50">
+            <tr>
+              <th className="w-10 px-4 py-3">
+                <input
+                  type="checkbox"
+                  aria-label="Select all team members"
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </th>
+              {["Name", "Status", "Role", "Added on", "Last active", ""].map(
+                (h, i) => (
+                  <th
+                    key={i}
+                    className="px-4 py-3 text-left text-xs font-medium text-gray-500"
+                  >
+                    {h}
+                  </th>
+                )
+              )}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {members.map((m, i) => (
+              <tr key={m.id} className="hover:bg-gray-50/50">
+                <td className="px-4 py-4">
+                  <input
+                    type="checkbox"
+                    aria-label={`Select ${m.name}`}
+                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={cn(
+                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold",
+                        memberColors[i % memberColors.length]
+                      )}
+                    >
+                      {memberInitials(m.name)}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-medium text-gray-900">
+                        {m.name}
+                      </span>
+                      <span className="block text-xs text-gray-500">
+                        {m.email}
+                      </span>
+                    </span>
+                  </div>
+                </td>
+                <td className="px-4 py-4">
+                  <span
+                    className={cn(
+                      "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                      m.status === "Active"
+                        ? "bg-green-50 text-green-600 border border-green-200"
+                        : "bg-gray-100 text-gray-600 border border-gray-200"
+                    )}
+                  >
+                    {m.status}
+                  </span>
+                </td>
+                <td className="px-4 py-4 text-sm text-gray-600">{m.role}</td>
+                <td className="px-4 py-4 text-sm text-gray-600">{m.addedOn}</td>
+                <td className="px-4 py-4 text-sm text-gray-600">
+                  {m.lastActive}
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex items-center gap-3 text-gray-400">
+                    <button
+                      type="button"
+                      aria-label={`Delete ${m.name}`}
+                      onClick={() =>
+                        setMembers((prev) => prev.filter((x) => x.id !== m.id))
+                      }
+                      className="hover:text-red-600"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Edit ${m.name}`}
+                      onClick={() => setEditing(m)}
+                      className="hover:text-gray-600"
+                    >
+                      <Pencil size={15} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {(adding || editing) && (
+        <MemberModal
+          member={editing}
+          onClose={() => {
+            setAdding(false);
+            setEditing(null);
+          }}
+          onSave={(member) => {
+            setMembers((prev) =>
+              editing
+                ? prev.map((m) => (m.id === member.id ? member : m))
+                : [...prev, member]
+            );
+            setAdding(false);
+            setEditing(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/* --------------------------------- Billings -------------------------------- */
+
+type BillingReview = "Approved" | "Pending" | "Rejected";
+type BillingPayment = "Paid" | "Refunded" | "Dispute";
+
+interface BillingRow {
+  id: string;
+  payer: string;
+  type: string;
+  amount: string;
+  review: BillingReview;
+  payment: BillingPayment;
+  date: string;
+}
+
+const billingRows: BillingRow[] = [
+  { id: "BLO-9201", payer: "James Akintaro", type: "Candidate Application", amount: "₦10,000", review: "Rejected", payment: "Refunded", date: "Dec 1, 2025" },
+  { id: "GCL-TXN-2961", payer: "Progress Coalition", type: "Advertisement", amount: "₦30,000", review: "Pending", payment: "Paid", date: "Nov 1, 2025" },
+  { id: "GCL-TXN-2831", payer: "Alex Okafor", type: "Advertisement", amount: "₦25,000", review: "Pending", payment: "Paid", date: "Oct 1, 2025" },
+  { id: "GCL-TXN-2709", payer: "Better Nigeria Party", type: "Advertisement", amount: "₦50,000", review: "Approved", payment: "Dispute", date: "Sep 1, 2025" },
+  { id: "GCL-TXN-2610", payer: "United Future Alliance", type: "Candidate Application", amount: "₦10,000", review: "Approved", payment: "Paid", date: "Aug 1, 2025" },
+  { id: "GCL-TXN-2512", payer: "Adebanke Group", type: "Candidate Application", amount: "₦10,000", review: "Approved", payment: "Paid", date: "Jul 1, 2025" },
+];
+
+const reviewPillStyles: Record<BillingReview, string> = {
+  Approved: "bg-green-50 text-green-600 border border-green-200",
+  Pending: "bg-amber-50 text-amber-600 border border-amber-200",
+  Rejected: "bg-red-50 text-red-500 border border-red-200",
+};
+
+function PaymentPill({ status }: { status: BillingPayment }) {
+  const styles: Record<BillingPayment, string> = {
+    Paid: "bg-green-50 text-green-600 border border-green-200",
+    Refunded: "bg-gray-100 text-gray-600 border border-gray-200",
+    Dispute: "bg-red-50 text-red-500 border border-red-200",
+  };
+  const icons: Record<BillingPayment, React.ReactNode> = {
+    Paid: <Check size={11} />,
+    Refunded: <RefreshCw size={11} />,
+    Dispute: <Ban size={11} />,
+  };
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+        styles[status]
+      )}
+    >
+      {icons[status]}
+      {status}
+    </span>
+  );
+}
+
+function BillingsSettingsTab() {
+  const [query, setQuery] = useState("");
+
+  const q = query.trim().toLowerCase();
+  const rows = q
+    ? billingRows.filter((r) =>
+        [r.id, r.payer, r.type, r.amount, r.review, r.payment, r.date].some(
+          (f) => f.toLowerCase().includes(q)
+        )
+      )
+    : billingRows;
+
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-base font-semibold text-gray-900">
+            Billing management
+          </h2>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Manage the billing and payment details of this user
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <Search
+              size={14}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="search"
+              className="w-56 rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+          >
+            Filter <ListFilter size={14} className="text-gray-500" />
+          </button>
+          <button
+            type="button"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+          >
+            <Upload size={14} className="text-gray-500" /> Export all
+          </button>
+        </div>
+      </div>
+
+      <table className="mt-4 w-full">
+        <thead className="border-y border-gray-100 bg-gray-50/50">
+          <tr>
+            <th className="w-10 px-4 py-3">
+              <input
+                type="checkbox"
+                aria-label="Select all billing rows"
+                className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              />
+            </th>
+            {["ID", "Payer Name", "Type", "Amount", "Review Status", "Status", "Date", ""].map(
+              (h, i) => (
+                <th
+                  key={i}
+                  className="px-4 py-3 text-left text-xs font-medium text-gray-500"
+                >
+                  {h}
+                </th>
+              )
+            )}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {rows.map((r) => (
+            <tr key={r.id} className="hover:bg-gray-50/50">
+              <td className="px-4 py-4">
+                <input
+                  type="checkbox"
+                  aria-label={`Select ${r.id}`}
+                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+              </td>
+              <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                {r.id}
+              </td>
+              <td className="px-4 py-4 text-sm text-gray-600">{r.payer}</td>
+              <td className="px-4 py-4 text-sm text-gray-600">{r.type}</td>
+              <td className="px-4 py-4 text-sm text-gray-600">{r.amount}</td>
+              <td className="px-4 py-4">
+                <span
+                  className={cn(
+                    "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                    reviewPillStyles[r.review]
+                  )}
+                >
+                  {r.review}
+                </span>
+              </td>
+              <td className="px-4 py-4">
+                <PaymentPill status={r.payment} />
+              </td>
+              <td className="px-4 py-4 text-sm text-gray-600">{r.date}</td>
+              <td className="px-4 py-4">
+                <button
+                  type="button"
+                  aria-label={`Actions for ${r.id}`}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <MoreVertical size={14} />
+                </button>
+              </td>
+            </tr>
+          ))}
+          {rows.length === 0 && (
+            <tr>
+              <td
+                colSpan={9}
+                className="px-4 py-10 text-center text-sm text-gray-500"
+              >
+                No billing records match &ldquo;{query}&rdquo;
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 /* ------------------------- Security & Notifications ------------------------ */
-/* Stand-ins consistent with the app style until their Figma screens arrive.  */
+/* Notifications remains a stand-in until its Figma screen arrives.           */
 
 function Toggle({
   checked,
@@ -748,100 +1243,125 @@ function PasswordField({
   );
 }
 
+const loginSessions = [
+  { id: "s1", device: "2018 Macbook Pro 15-inch", meta: "Lagos, Nigeria • 22 Jan at 10:40am", activeNow: true },
+  { id: "s2", device: "2018 Macbook Pro 15-inch", meta: "Lagos, Nigeria • 22 Jan at 10:40am", activeNow: false },
+];
+
 function SecurityTab() {
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [updated, setUpdated] = useState(false);
-  const [twoFa, setTwoFa] = useState(true);
-  const [sessions, setSessions] = useState([
-    { id: "s1", device: "Windows · Chrome", location: "Lagos, Nigeria", current: true, icon: "laptop" },
-    { id: "s2", device: "iPhone 15 · Safari", location: "Lagos, Nigeria", current: false, icon: "phone" },
-  ]);
+  const [saved, setSaved] = useState(false);
 
-  const canUpdate = current.length > 0 && next.length >= 8 && next === confirm;
+  const canSave = current.length > 0 && next.length > 8 && next === confirm;
 
   return (
-    <div className="max-w-3xl space-y-8">
-      <div>
-        <h2 className="text-base font-semibold text-gray-900">Change password</h2>
-        <p className="mt-0.5 text-sm text-gray-500">
-          Use at least 8 characters. New password and confirmation must match.
-        </p>
-        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-          <PasswordField id="current-password" label="Current password" value={current} onChange={setCurrent} />
-          <PasswordField id="new-password" label="New password" value={next} onChange={setNext} />
-          <PasswordField id="confirm-password" label="Confirm new password" value={confirm} onChange={setConfirm} />
+    <div>
+      <h2 className="text-base font-semibold text-gray-900">Password</h2>
+      <p className="mt-0.5 text-sm text-gray-500">
+        Please enter your current password to change your password.
+      </p>
+
+      <div className="mt-4">
+        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+          <span className="text-sm font-medium text-gray-700">
+            Current password
+          </span>
+          <div className="max-w-sm">
+            <PasswordField
+              id="current-password"
+              label="Current password"
+              value={current}
+              onChange={setCurrent}
+            />
+          </div>
         </div>
-        <div className="mt-4 flex items-center gap-3">
-          <button
-            type="button"
-            disabled={!canUpdate}
-            onClick={() => {
-              if (!canUpdate) return;
-              setCurrent("");
-              setNext("");
-              setConfirm("");
-              setUpdated(true);
-              setTimeout(() => setUpdated(false), 2500);
-            }}
-            className={cn(
-              "rounded-lg px-4 py-2 text-sm font-medium text-white",
-              canUpdate ? "bg-primary hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed"
-            )}
-          >
-            Update password
-          </button>
-          {updated && (
+        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+          <span className="text-sm font-medium text-gray-700">New password</span>
+          <div className="max-w-sm">
+            <PasswordField
+              id="new-password"
+              label="New password"
+              value={next}
+              onChange={setNext}
+            />
+            <p className="mt-1.5 text-xs text-gray-500">
+              Your new password must be more than 8 characters.
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+          <span className="text-sm font-medium text-gray-700">
+            Confirm new password
+          </span>
+          <div className="max-w-sm">
+            <PasswordField
+              id="confirm-password"
+              label="Confirm new password"
+              value={confirm}
+              onChange={setConfirm}
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-3 py-5">
+          {saved && (
             <span className="flex items-center gap-1 text-sm text-green-600">
               <Check size={14} /> Password updated
             </span>
           )}
+          <button
+            type="button"
+            disabled={!canSave}
+            onClick={() => {
+              if (!canSave) return;
+              setCurrent("");
+              setNext("");
+              setConfirm("");
+              setSaved(true);
+              setTimeout(() => setSaved(false), 2500);
+            }}
+            className={cn(
+              "rounded-lg px-4 py-2 text-sm font-medium text-white",
+              canSave ? "bg-primary hover:bg-blue-700" : "bg-blue-300 cursor-not-allowed"
+            )}
+          >
+            Save changes
+          </button>
         </div>
       </div>
 
-      <div className="border-t border-gray-100 pt-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-semibold text-gray-900">
-              Two-factor authentication
-            </h2>
-            <p className="mt-0.5 text-sm text-gray-500">
-              {twoFa ? "Enabled — codes sent to your email" : "Disabled"}
-            </p>
-          </div>
-          <Toggle checked={twoFa} onChange={setTwoFa} label="Two-factor authentication" />
-        </div>
-      </div>
+      <div className="mt-4">
+        <h2 className="text-base font-semibold text-gray-900">
+          Where you&apos;re logged in
+        </h2>
+        <p className="mt-0.5 text-sm text-gray-500">
+          We&apos;ll alert you via{" "}
+          <span className="font-semibold text-gray-700">
+            jakintaro@gclout.com
+          </span>{" "}
+          if there is any unusual activity on your account.
+        </p>
 
-      <div className="border-t border-gray-100 pt-6">
-        <h2 className="text-base font-semibold text-gray-900">Active sessions</h2>
-        <div className="mt-2 divide-y divide-gray-100">
-          {sessions.map((s) => (
-            <div key={s.id} className="flex items-center gap-3 py-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-gray-600">
-                {s.icon === "laptop" ? <Laptop size={16} /> : <Smartphone size={16} />}
+        <div className="mt-4 divide-y divide-gray-100">
+          {loginSessions.map((s) => (
+            <div key={s.id} className="flex items-start gap-3 py-4">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-500">
+                <Monitor size={16} />
               </span>
-              <div className="flex-1">
-                <div className="text-sm font-medium text-gray-900">
+              <div>
+                <div className="flex items-center gap-2 text-sm font-medium text-gray-900">
                   {s.device}
-                  {s.current && (
-                    <span className="ml-2 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-600">
-                      This device
+                  {s.activeNow && (
+                    <span className="flex items-center gap-1 rounded-full border border-green-200 bg-green-50 px-2 py-0.5 text-xs font-medium text-green-600">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                      Active now
                     </span>
                   )}
                 </div>
-                <div className="text-xs text-gray-500">{s.location}</div>
+                <div className="mt-0.5 text-sm text-gray-500">{s.meta}</div>
               </div>
-              {!s.current && (
-                <button
-                  type="button"
-                  onClick={() => setSessions((prev) => prev.filter((x) => x.id !== s.id))}
-                  className="text-sm text-red-600 hover:underline"
-                >
-                  Sign out
-                </button>
-              )}
             </div>
           ))}
         </div>
@@ -892,8 +1412,17 @@ function NotificationsTab() {
 
 /* ---------------------------------- Page ----------------------------------- */
 
+const initialTeam: TeamMember[] = [
+  { id: "tm-1", name: "Olivia Rhye", email: "olivia@example.com", status: "Active", role: "Sub admin", addedOn: "Dec 1, 2024", lastActive: "Dec 1, 2024" },
+  { id: "tm-2", name: "Phoenix Baker", email: "phoenix@example.com", status: "Active", role: "Super admin", addedOn: "Nov 1, 2025", lastActive: "Nov 1, 2025" },
+  { id: "tm-3", name: "Lana Steiner", email: "lana@example.com", status: "Active", role: "Sub admin", addedOn: "Oct 1, 2025", lastActive: "Oct 1, 2025" },
+  { id: "tm-4", name: "Demi Wilkinson", email: "demi@example.com", status: "Offline", role: "Sub admin", addedOn: "Jul 1, 2025", lastActive: "Jul 1, 2025" },
+  { id: "tm-5", name: "Candice Wu", email: "candice@example.com", status: "Offline", role: "Sub admin", addedOn: "Jun 1, 2025", lastActive: "Jun 1, 2025" },
+];
+
 export default function SettingsPage() {
   const [tab, setTab] = useState<(typeof tabs)[number]>("Profile");
+  const [team, setTeam] = useState(initialTeam);
 
   return (
     <main className="px-6 py-6">
@@ -932,7 +1461,7 @@ export default function SettingsPage() {
             {t}
             {t === "Team" && (
               <span className="rounded-full bg-gray-100 px-1.5 text-xs text-gray-600">
-                6
+                {team.length}
               </span>
             )}
           </button>
@@ -943,14 +1472,10 @@ export default function SettingsPage() {
         {tab === "Profile" && <ProfileTab />}
         {tab === "General" && <GeneralTab />}
         {tab === "Role management" && <RoleManagementTab />}
+        {tab === "Team" && <TeamTab members={team} setMembers={setTeam} />}
+        {tab === "Billings" && <BillingsSettingsTab />}
         {tab === "Security" && <SecurityTab />}
         {tab === "Notifications" && <NotificationsTab />}
-        {(tab === "Team" || tab === "Billings") && (
-          <div className="rounded-xl border border-gray-200 bg-white p-10 text-center text-sm text-gray-500">
-            {tab} settings coming soon — share the Figma screen and we&apos;ll
-            build it.
-          </div>
-        )}
       </div>
     </main>
   );
