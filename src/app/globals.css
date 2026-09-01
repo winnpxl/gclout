@@ -26,6 +26,31 @@ body {
   color: var(--foreground);
 }
 
+/* Page transition: slide + fade in on every route change.
+   Animates `left` on a relatively-positioned element rather than `transform`:
+   `position: relative` does NOT create a containing block for fixed-position
+   descendants, so the app's `fixed inset-0` modals keep anchoring to the
+   viewport even mid-animation. A transform would break that. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    left: 28px;
+  }
+  to {
+    opacity: 1;
+    left: 0;
+  }
+}
+.page-transition {
+  position: relative;
+  animation: page-enter 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation: none;
+  }
+}
+
 /* Placeholder for the petition rich-text editor */
 .petition-editor:empty::before {
   content: attr(data-placeholder);
