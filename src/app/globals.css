@@ -12,6 +12,10 @@
 
 @theme {
   --color-primary: #2563eb;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
 }
 
 @media (prefers-color-scheme: dark) {
