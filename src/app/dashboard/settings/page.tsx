@@ -299,8 +299,8 @@ function GeneralTab() {
                 className="h-12 w-12 rounded-xl object-cover"
               />
             ) : (
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary">
-                <Logo className="text-white text-lg" />
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white">
+                <Logo className="h-8 w-8" />
               </span>
             )}
             <div className="flex-1">

@@ -46,9 +46,7 @@ export function Sidebar() {
   return (
     <aside className="w-56 shrink-0 border-r border-gray-200 bg-white flex flex-col min-h-screen">
       <div className="flex items-center gap-2 px-4 py-4">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-          <Logo className="text-white text-lg" />
-        </span>
+        <Logo className="h-9 w-9 shrink-0" />
         <div className="flex-1 leading-tight">
           <div className="text-sm font-semibold text-gray-900">Gclout</div>
           <div className="text-xs text-gray-500">Admin</div>

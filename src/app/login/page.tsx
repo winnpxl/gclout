@@ -40,7 +40,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex flex-col items-center bg-white">
       <div className="pt-8">
-        <Logo />
+        <Logo className="h-9 w-auto" />
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center w-full">
