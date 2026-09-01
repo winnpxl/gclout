@@ -2,44 +2,42 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronRight, ChevronDown, ChevronsUpDown } from "lucide-react";
 import {
-  LayoutDashboard,
-  Users,
-  MessageSquare,
-  FileText,
-  Flag,
-  Settings,
-  HelpCircle,
-  ChevronRight,
-  ChevronDown,
-  ChevronsUpDown,
-} from "lucide-react";
+  HomeIcon,
+  UsersIcon,
+  MessagesIcon,
+  ContentIcon,
+  ReportIcon,
+  SettingsIcon,
+  HelpIcon,
+} from "@/components/icons/nav-icons";
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/dashboard", icon: HomeIcon },
   {
     label: "Users",
     href: "/dashboard/users",
-    icon: Users,
+    icon: UsersIcon,
     subItems: [
       { label: "Role Change Requests", href: "/dashboard/users/role-requests" },
       { label: "Election Observers", href: "/dashboard/users/observers" },
     ],
   },
-  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Messages", href: "/dashboard/messages", icon: MessagesIcon },
   {
     label: "Content",
     href: "/dashboard/content",
-    icon: FileText,
+    icon: ContentIcon,
     subItems: [
       { label: "Your Posts", href: "/dashboard/content/your-posts" },
     ],
   },
-  { label: "Report", href: "/dashboard/report", icon: Flag },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
-  { label: "Help", href: "/dashboard/help", icon: HelpCircle },
+  { label: "Report", href: "/dashboard/report", icon: ReportIcon },
+  { label: "Settings", href: "/dashboard/settings", icon: SettingsIcon },
+  { label: "Help", href: "/dashboard/help", icon: HelpIcon },
 ];
 
 export function Sidebar() {
@@ -75,7 +73,7 @@ export function Sidebar() {
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 )}
               >
-                <Icon size={16} />
+                <Icon size={18} filled={active} />
                 <span className="flex-1">{label}</span>
                 {!!subItems &&
                   (expanded ? (
