@@ -139,12 +139,14 @@ function PostCard({ post, author }: { post: UserPost; author: AuthorInfo }) {
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           {author.avatar ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={author.avatar}
-              alt={author.name}
-              className="h-10 w-10 shrink-0 rounded-full object-cover"
-            />
+            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={author.avatar}
+                alt={author.name}
+                className="h-full w-full origin-top scale-[1.15] object-cover object-top"
+              />
+            </div>
           ) : (
             <span className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-pink-300 via-fuchsia-300 to-blue-300" />
           )}
