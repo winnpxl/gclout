@@ -111,12 +111,14 @@ export default function UserProfilePage({
       <div className="flex items-start justify-between px-6">
         <div className="flex items-end gap-5 -mt-16">
           {user.avatar ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
-              src={user.avatar}
-              alt={user.name}
-              className="h-36 w-36 rounded-full border-4 border-white object-cover shadow"
-            />
+            <div className="h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-white shadow">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className="h-full w-full origin-top scale-[1.15] object-cover object-top"
+              />
+            </div>
           ) : (
             <span className="flex h-36 w-36 items-center justify-center rounded-full border-4 border-white bg-rose-100 text-3xl font-semibold text-rose-700 shadow">
               {initials(user.name)}
