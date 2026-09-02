@@ -111,7 +111,7 @@ export default function UserProfilePage({
       <div className="flex items-start justify-between px-6">
         <div className="flex items-end gap-5 -mt-16">
           {user.avatar ? (
-            <div className="h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-white shadow">
+            <div className="h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-surface shadow">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={user.avatar}
@@ -120,7 +120,7 @@ export default function UserProfilePage({
               />
             </div>
           ) : (
-            <span className="flex h-36 w-36 items-center justify-center rounded-full border-4 border-white bg-rose-100 text-3xl font-semibold text-rose-700 shadow">
+            <span className="flex h-36 w-36 items-center justify-center rounded-full border-4 border-surface bg-rose-100 text-3xl font-semibold text-rose-700 shadow">
               {initials(user.name)}
             </span>
           )}
@@ -136,12 +136,12 @@ export default function UserProfilePage({
                   {user.partyMember}
                 </span>
               ) : (
-                <span className="rounded-full border border-gray-200 bg-white px-3 py-0.5 text-xs font-medium text-gray-700">
+                <span className="rounded-full border border-gray-200 bg-surface px-3 py-0.5 text-xs font-medium text-gray-700">
                   {role}
                 </span>
               )}
               <StatusPill status={status} />
-              <span className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-0.5 text-xs font-medium text-gray-700">
+              <span className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-surface px-3 py-0.5 text-xs font-medium text-gray-700">
                 <span aria-hidden>🇳🇬</span> {p.country}
               </span>
             </div>
@@ -151,7 +151,7 @@ export default function UserProfilePage({
           <button
             type="button"
             aria-label={`Email ${user.name}`}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-surface text-gray-500 hover:bg-gray-50"
           >
             <Mail size={16} />
           </button>
@@ -159,7 +159,7 @@ export default function UserProfilePage({
             <button
               type="button"
               onClick={() => setModal("suspend")}
-              className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="rounded-lg border border-gray-200 bg-surface px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               Suspend user
             </button>
@@ -167,7 +167,7 @@ export default function UserProfilePage({
             <button
               type="button"
               onClick={() => setModal("reactivate")}
-              className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="rounded-lg border border-gray-200 bg-surface px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               Reactivate user
             </button>
@@ -214,7 +214,7 @@ export default function UserProfilePage({
 
       {tab === "Overview" ? (
         <div className="mt-6 grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
-          <section className="rounded-xl border border-gray-200 bg-white p-6">
+          <section className="rounded-xl border border-gray-200 bg-surface p-6">
             <h3 className="border-b border-gray-100 pb-4 text-base font-semibold text-gray-900">
               Personal Information
             </h3>
@@ -232,7 +232,7 @@ export default function UserProfilePage({
             </div>
           </section>
 
-          <section className="rounded-xl border border-gray-200 bg-white p-6">
+          <section className="rounded-xl border border-gray-200 bg-surface p-6">
             <h3 className="border-b border-gray-100 pb-4 text-base font-semibold text-gray-900">
               Other account information
             </h3>

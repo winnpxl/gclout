@@ -85,7 +85,7 @@ const td = "px-4 py-3 text-sm text-gray-700";
 
 export function AwaitingReviewTable() {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white">
+    <div className="rounded-xl border border-gray-200 bg-surface">
       <h3 className="px-4 pt-4 pb-2 text-sm font-semibold text-gray-900">
         Awaiting Review
       </h3>
@@ -134,7 +134,7 @@ export function AwaitingReviewTable() {
 
 export function TopCampaignsTable() {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white">
+    <div className="rounded-xl border border-gray-200 bg-surface">
       <h3 className="px-4 pt-4 pb-2 text-sm font-semibold text-gray-900">
         Top Performing Campaigns
       </h3>

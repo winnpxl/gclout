@@ -21,7 +21,7 @@ function formatUsers(v: number) {
 
 export function UserGrowthChart() {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
+    <div className="rounded-xl border border-gray-200 bg-surface p-4">
       <h3 className="text-sm font-semibold text-gray-900">User Growth</h3>
       <p className="text-xs text-gray-500">Total registered users over time</p>
       <div className="mt-4 h-56">
@@ -71,7 +71,7 @@ export function UserGrowthChart() {
 
 export function ContentDistributionChart() {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
+    <div className="rounded-xl border border-gray-200 bg-surface p-4">
       <h3 className="text-sm font-semibold text-gray-900">Content Distribution</h3>
       <p className="text-xs text-gray-500">Chronicles by category</p>
       <div className="mt-4 h-56">

@@ -12,16 +12,19 @@ import {
   ListFilter,
   Mail,
   Monitor,
+  Moon,
   MoreVertical,
   Pencil,
   RefreshCw,
   Search,
+  Sun,
   Trash2,
   Upload,
   UploadCloud,
   X,
 } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
+import { useTheme, type Theme } from "@/components/theme/ThemeProvider";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -77,7 +80,7 @@ function UploadDropzone({
         onClick={() => ref.current?.click()}
         className="flex w-full flex-col items-center rounded-xl border border-dashed border-gray-300 px-4 py-5 hover:border-gray-400"
       >
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-surface text-gray-500 shadow-sm">
           <UploadCloud size={16} />
         </span>
         <span className="mt-2 text-xs">
@@ -238,9 +241,21 @@ function GeneralTab() {
   const [brandEmails, setBrandEmails] = useState(true);
   const [socials, setSocials] = useState(socialPrefixes.map((s) => s.value));
   const [saved, setSaved] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const selectWrap = "relative";
   const selectInput = cn(fieldInput, "appearance-none pl-9 pr-9");
+
+  const themeIconClass =
+    "absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400";
+  const resolvedThemeIcon =
+    theme === "dark" ? (
+      <Moon size={14} className={themeIconClass} />
+    ) : theme === "light" ? (
+      <Sun size={14} className={themeIconClass} />
+    ) : (
+      <Monitor size={14} className={themeIconClass} />
+    );
 
   return (
     <div>
@@ -250,6 +265,29 @@ function GeneralTab() {
       </p>
 
       <div className="mt-4">
+        <FormRow
+          label="Appearance"
+          hint="Choose how Gclout looks to you."
+        >
+          <div className={selectWrap}>
+            {resolvedThemeIcon}
+            <select
+              aria-label="Appearance"
+              value={theme}
+              onChange={(e) => setTheme(e.target.value as Theme)}
+              className={selectInput}
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
+            <ChevronDown
+              size={16}
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+            />
+          </div>
+        </FormRow>
+
         <FormRow label="Platform name">
           <input
             aria-label="Platform name"
@@ -299,7 +337,7 @@ function GeneralTab() {
                 className="h-12 w-12 rounded-xl object-cover"
               />
             ) : (
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-surface">
                 <Logo className="h-8 w-8" />
               </span>
             )}
@@ -468,14 +506,14 @@ function CreateRoleModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl"
+        className="w-full max-w-sm rounded-2xl bg-surface p-5 shadow-xl"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-gray-900">
@@ -576,7 +614,7 @@ function RoleManagementTab() {
         </button>
       </div>
 
-      <div className="mt-5 rounded-xl border border-gray-200 bg-white">
+      <div className="mt-5 rounded-xl border border-gray-200 bg-surface">
         <table className="w-full">
           <thead className="border-b border-gray-100 bg-gray-50/50">
             <tr>
@@ -733,14 +771,14 @@ function MemberModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl"
+        className="w-full max-w-sm rounded-2xl bg-surface p-5 shadow-xl"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-gray-900">
@@ -866,7 +904,7 @@ function TeamTab({
         </button>
       </div>
 
-      <div className="mt-5 rounded-xl border border-gray-200 bg-white">
+      <div className="mt-5 rounded-xl border border-gray-200 bg-surface">
         <table className="w-full">
           <thead className="border-b border-gray-100 bg-gray-50/50">
             <tr>
@@ -1053,7 +1091,7 @@ function BillingsSettingsTab() {
     : billingRows;
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
+    <div className="rounded-xl border border-gray-200 bg-surface p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 className="text-base font-semibold text-gray-900">
@@ -1074,18 +1112,18 @@ function BillingsSettingsTab() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="search"
-              className="w-56 rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-56 rounded-full border border-gray-200 bg-surface py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             Filter <ListFilter size={14} className="text-gray-500" />
           </button>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             <Upload size={14} className="text-gray-500" /> Export all
           </button>
@@ -1436,7 +1474,7 @@ export default function SettingsPage() {
             <h1 className="text-xl font-semibold text-gray-900">
               James Akintaro
             </h1>
-            <span className="rounded-full border border-gray-200 bg-white px-2.5 py-0.5 text-xs text-gray-600">
+            <span className="rounded-full border border-gray-200 bg-surface px-2.5 py-0.5 text-xs text-gray-600">
               Super admin
             </span>
           </div>

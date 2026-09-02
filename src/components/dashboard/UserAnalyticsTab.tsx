@@ -41,7 +41,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
   return (
     <div className="mt-6 space-y-4">
       <div className="flex items-center justify-end gap-2">
-        <div className="inline-flex rounded-md border border-gray-200 bg-white">
+        <div className="inline-flex rounded-md border border-gray-200 bg-surface">
           {ranges.map((r) => (
             <button
               key={r}
@@ -64,7 +64,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
         />
         <button
           type="button"
-          className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+          className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
         >
           <Upload size={14} className="text-gray-500" /> Export
         </button>
@@ -74,7 +74,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
         {stats.map((s) => (
           <div
             key={s.label}
-            className="rounded-xl border border-gray-200 bg-white p-4"
+            className="rounded-xl border border-gray-200 bg-surface p-4"
           >
             <div className="text-sm text-gray-500">{s.label}</div>
             <div className="mt-2 text-2xl font-semibold text-gray-900">
@@ -84,7 +84,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
         ))}
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-4">
+      <div className="rounded-xl border border-gray-200 bg-surface p-4">
         <h3 className="text-base font-semibold text-gray-900">
           Daily Activity Pattern
         </h3>
@@ -124,7 +124,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
       </div>
 
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
-        <section className="rounded-xl border border-gray-200 bg-white p-5 lg:col-span-2">
+        <section className="rounded-xl border border-gray-200 bg-surface p-5 lg:col-span-2">
           <h3 className="text-base font-semibold text-gray-900">
             Governance Participation
           </h3>
@@ -152,7 +152,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
             <div className="text-xs text-gray-500">
               {topContent.interactions} interactions
             </div>
-            <div className="mt-3 rounded-xl bg-white p-4">
+            <div className="mt-3 rounded-xl bg-surface p-4">
               <div className="flex items-center gap-3">
                 {author.avatar ? (
                   <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full">
@@ -192,7 +192,7 @@ export function UserAnalyticsTab({ author }: { author: AuthorInfo }) {
           </div>
         </section>
 
-        <section className="rounded-xl border border-gray-200 bg-white p-5">
+        <section className="rounded-xl border border-gray-200 bg-surface p-5">
           <h3 className="text-base font-semibold text-gray-900">
             Security Status
           </h3>

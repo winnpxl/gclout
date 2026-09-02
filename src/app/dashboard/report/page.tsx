@@ -43,7 +43,7 @@ function fmt(d: Date) {
 
 function StatCard({ stat }: { stat: ReportStat }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
+    <div className="rounded-xl border border-gray-200 bg-surface p-4">
       <div className="text-sm text-gray-500">{stat.label}</div>
       <div className="mt-2 text-2xl font-semibold text-gray-900">
         {stat.value}
@@ -69,7 +69,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-gray-200 bg-white p-4">
+    <section className="rounded-xl border border-gray-200 bg-surface p-4">
       <h2 className="border-b border-gray-100 pb-3 text-sm font-semibold text-gray-900">
         {title}
       </h2>
@@ -222,13 +222,13 @@ export default function ReportPage() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             Choose country <ChevronDown size={14} className="text-gray-400" />
           </button>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             <Upload size={14} className="text-gray-500" /> Export
           </button>
@@ -236,7 +236,7 @@ export default function ReportPage() {
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="inline-flex rounded-md border border-gray-200 bg-white">
+        <div className="inline-flex rounded-md border border-gray-200 bg-surface">
           {ranges.map((r) => (
             <button
               key={r}

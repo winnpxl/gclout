@@ -72,13 +72,13 @@ export default function RoleChangeRequestsPage() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             Filter <ListFilter size={14} className="text-gray-500" />
           </button>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             <Upload size={14} className="text-gray-500" /> Export
           </button>
@@ -95,11 +95,11 @@ export default function RoleChangeRequestsPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="search"
-          className="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full rounded-full border border-gray-200 bg-surface py-2 pl-9 pr-4 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white">
+      <div className="rounded-xl border border-gray-200 bg-surface">
         <table className="w-full">
           <thead className="border-b border-gray-100 bg-gray-50/50">
             <tr>
@@ -160,7 +160,7 @@ export default function RoleChangeRequestsPage() {
                     <MoreVertical size={16} />
                   </button>
                   {menuFor === r.id && (
-                    <div className="absolute right-6 top-10 z-10 w-48 rounded-xl border border-gray-200 bg-white py-1.5 shadow-lg">
+                    <div className="absolute right-6 top-10 z-10 w-48 rounded-xl border border-gray-200 bg-surface py-1.5 shadow-lg">
                       <button
                         type="button"
                         onClick={() => {

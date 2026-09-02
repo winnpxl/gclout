@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -12,17 +13,36 @@
 
 @theme {
   --color-primary: #2563eb;
+  /* Surface = card/header/sidebar/input backgrounds (was bg-white). Flips in
+     dark mode while the literal `white`/`black` tokens stay fixed so
+     `text-white` on buttons and `bg-black/*` scrims keep working. */
+  --color-surface: #ffffff;
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
     monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark theme: remap the neutral palette so the whole app flips consistently.
+   Accent/semantic colors (blue, green, red, amber, purple) are left alone so
+   status pills and solid buttons keep their meaning and contrast. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0b0f17;
+  --foreground: #f5f8fc;
+
+  --color-surface: #151b26; /* elevated: cards, sidebar, header, inputs */
+
+  --color-gray-50: #0b0f17; /* app background / subtle fills */
+  --color-gray-100: #1e2733; /* hover fills, chips */
+  --color-gray-200: #2b3644; /* borders, dividers */
+  --color-gray-300: #3a4859; /* input borders, stronger dividers */
+  --color-gray-400: #6b7a8d; /* muted icons, placeholders */
+  --color-gray-500: #97a4b6; /* secondary text */
+  --color-gray-600: #b6c1d0; /* body text */
+  --color-gray-700: #d3dae4; /* strong body text */
+  --color-gray-800: #e7ecf2; /* headings */
+  --color-gray-900: #f5f8fc; /* primary headings / highest-contrast text */
 }
 
 body {

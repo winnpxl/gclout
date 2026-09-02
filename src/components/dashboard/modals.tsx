@@ -26,14 +26,14 @@ function ModalShell({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl"
+        className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-xl"
       >
         <div className="flex items-start justify-between">
           <span
@@ -280,14 +280,14 @@ export function ApplicationReviewModal({
 }: ApplicationReviewModalProps) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[90vh] w-full max-w-md flex-col rounded-2xl bg-white shadow-xl"
+        className="flex max-h-[90vh] w-full max-w-md flex-col rounded-2xl bg-surface shadow-xl"
       >
         <div className="flex items-start justify-between p-5 pb-0">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-600">
@@ -322,7 +322,7 @@ export function ApplicationReviewModal({
 
           <div className="mt-3 rounded-xl bg-gray-50 p-4">
             <div className="text-xs text-gray-500">Supporting Document</div>
-            <div className="mt-2 flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3">
+            <div className="mt-2 flex items-center gap-3 rounded-lg border border-gray-200 bg-surface p-3">
               <span className="flex h-9 w-9 items-center justify-center rounded bg-red-600 text-white">
                 <FileText size={16} />
               </span>

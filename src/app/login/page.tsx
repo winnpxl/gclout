@@ -11,8 +11,8 @@ type Step = "email" | "password";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputClasses = cn(
-  "w-full px-3 py-2 border border-gray-300 rounded text-sm",
-  "text-blue-900 caret-blue-900",
+  "w-full px-3 py-2 border border-gray-300 rounded text-sm bg-surface",
+  "text-gray-900 caret-gray-900",
   "placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
 );
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center bg-white">
+    <main className="min-h-screen flex flex-col items-center bg-surface">
       <div className="pt-8">
         <Logo className="h-9 w-auto" />
       </div>

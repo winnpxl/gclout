@@ -55,7 +55,7 @@ function EmojiPicker({ onPick }: { onPick: (emoji: string) => void }) {
         <Smile size={17} />
       </button>
       {open && (
-        <div className="absolute bottom-8 left-0 z-20 grid w-48 grid-cols-8 gap-1 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+        <div className="absolute bottom-8 left-0 z-20 grid w-48 grid-cols-8 gap-1 rounded-xl border border-gray-200 bg-surface p-2 shadow-lg">
           {quickEmojis.map((e) => (
             <button
               key={e}
@@ -95,7 +95,7 @@ function DurationPicker({
         {value ?? placeholder} <ChevronDown size={14} />
       </button>
       {open && (
-        <div className="absolute bottom-7 left-0 z-20 w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+        <div className="absolute bottom-7 left-0 z-20 w-36 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg">
           {pollDurations.map((d) => (
             <button
               key={d}
@@ -141,7 +141,7 @@ function WhoCanSee() {
         <Globe size={14} /> Who can see this?
       </button>
       {open && (
-        <div className="absolute left-0 z-20 mt-2 w-80 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+        <div className="absolute left-0 z-20 mt-2 w-80 rounded-xl border border-gray-200 bg-surface p-4 shadow-lg">
           <div className="text-sm font-semibold text-gray-900">
             Who can reply?
           </div>
@@ -299,7 +299,7 @@ function TagPeoplePanel({
         {selected.map((p) => (
           <span
             key={p.name}
-            className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white py-0.5 pl-1 pr-2 text-xs text-gray-800"
+            className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-surface py-0.5 pl-1 pr-2 text-xs text-gray-800"
           >
             <span className="h-4 w-4 rounded-full bg-gradient-to-br from-pink-300 to-blue-300" />
             {p.name}
@@ -467,14 +467,14 @@ export function CreateContentModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-gray-900/40 p-4 pt-20"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-20"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl"
+        className="max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-surface p-5 shadow-xl"
       >
         {view === "description" ? (
           <EditDescriptionPanel
@@ -551,12 +551,12 @@ export function CreateContentModal({
                                 );
                               }}
                               aria-label={`Remove image ${i + 1}`}
-                              className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-gray-900/70 text-white hover:bg-gray-900"
+                              className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-white hover:bg-black"
                             >
                               <X size={13} />
                             </button>
                             {description && (
-                              <span className="absolute bottom-2 left-2 rounded bg-gray-900/70 px-1.5 py-0.5 text-xs font-medium text-white">
+                              <span className="absolute bottom-2 left-2 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">
                                 ALT
                               </span>
                             )}
@@ -759,14 +759,14 @@ export function CreateIntegrityPollModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-gray-900/40 p-4 pt-10"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-10"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl"
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-surface p-6 shadow-xl"
       >
         <div className="flex items-start justify-between">
           <h2 className="text-sm font-semibold text-gray-900">
@@ -795,7 +795,7 @@ export function CreateIntegrityPollModal({
             className="w-full rounded-full border border-gray-200 py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           {personResults.length > 0 && (
-            <div className="absolute z-20 mt-1 w-full rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+            <div className="absolute z-20 mt-1 w-full rounded-lg border border-gray-200 bg-surface py-1 shadow-lg">
               {personResults.map((p) => (
                 <button
                   key={p.name}
@@ -843,7 +843,7 @@ export function CreateIntegrityPollModal({
             className="h-40 w-full object-cover"
           />
           <div className="flex items-center gap-3 p-4 pt-3">
-            <span className="-mt-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-rose-100 text-lg font-semibold text-rose-700">
+            <span className="-mt-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-surface bg-rose-100 text-lg font-semibold text-rose-700">
               {subject.name
                 .split(" ")
                 .map((w) => w[0])
@@ -853,7 +853,7 @@ export function CreateIntegrityPollModal({
             <span className="text-lg font-semibold text-gray-900">
               {subject.name}
             </span>
-            <span className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs text-gray-700">
+            <span className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-surface px-3 py-1 text-xs text-gray-700">
               <span aria-hidden>🇳🇬</span> {subject.title}
             </span>
           </div>
@@ -882,7 +882,7 @@ export function CreateIntegrityPollModal({
                       "flex flex-col items-center gap-2 rounded-xl border px-2 py-4 text-center",
                       rating === i
                         ? "border-primary bg-blue-50"
-                        : "border-gray-200 bg-white hover:border-gray-300"
+                        : "border-gray-200 bg-surface hover:border-gray-300"
                     )}
                   >
                     <span className="text-2xl" aria-hidden>
@@ -991,18 +991,18 @@ export function CreatePetitionModal({
   }
 
   const toolbarBtn =
-    "flex h-8 w-8 items-center justify-center rounded-md text-gray-600 hover:bg-white hover:text-gray-900";
+    "flex h-8 w-8 items-center justify-center rounded-md text-gray-600 hover:bg-surface hover:text-gray-900";
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-gray-900/40 p-4 pt-10"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-10"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[88vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl"
+        className="flex max-h-[88vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-surface shadow-xl"
       >
         {/* Header with formatting toolbar */}
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-3">
@@ -1013,12 +1013,12 @@ export function CreatePetitionModal({
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => setStyleOpen((v) => !v)}
-                className="flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-gray-700 hover:bg-white"
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium text-gray-700 hover:bg-surface"
               >
                 Style <ChevronDown size={13} />
               </button>
               {styleOpen && (
-                <div className="absolute left-0 top-9 z-20 w-36 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+                <div className="absolute left-0 top-9 z-20 w-36 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg">
                   {styleBlocks.map((s) => (
                     <button
                       key={s.block}
@@ -1111,7 +1111,7 @@ export function CreatePetitionModal({
                   setCover(null);
                 }}
                 aria-label="Remove cover image"
-                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900/60 text-white hover:bg-gray-900"
+                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-lg bg-black/60 text-white hover:bg-black"
               >
                 <X size={16} />
               </button>
@@ -1121,7 +1121,7 @@ export function CreatePetitionModal({
               <button
                 type="button"
                 onClick={() => coverInputRef.current?.click()}
-                className="flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 shadow-sm hover:bg-gray-50"
+                className="flex h-12 w-12 items-center justify-center rounded-lg border border-gray-200 bg-surface text-gray-600 shadow-sm hover:bg-gray-50"
               >
                 <UploadCloud size={20} />
               </button>

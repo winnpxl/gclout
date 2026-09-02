@@ -51,7 +51,7 @@ export function BillingsTab() {
     : billingRecords;
 
   return (
-    <div className="mt-6 rounded-xl border border-gray-200 bg-white p-5">
+    <div className="mt-6 rounded-xl border border-gray-200 bg-surface p-5">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-base font-semibold text-gray-900">
@@ -72,18 +72,18 @@ export function BillingsTab() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="search"
-              className="w-56 rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-56 rounded-full border border-gray-200 bg-surface py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             Filter <ListFilter size={14} className="text-gray-500" />
           </button>
           <button
             type="button"
-            className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
           >
             <Upload size={14} className="text-gray-500" /> Export all
           </button>

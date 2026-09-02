@@ -137,14 +137,14 @@ export function DateRangePicker({ onApply, label }: DateRangePickerProps) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
       >
         <Calendar size={14} className="text-gray-500" />
         {label}
       </button>
 
       {open && (
-        <div className="absolute right-0 z-20 mt-2 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+        <div className="absolute right-0 z-20 mt-2 rounded-xl border border-gray-200 bg-surface p-4 shadow-lg">
           <div className="flex gap-6">
             <MonthGrid
               year={view.year}

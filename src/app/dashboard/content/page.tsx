@@ -33,12 +33,12 @@ function SearchBar({
           value={query}
           onChange={(e) => onChange(e.target.value)}
           placeholder="search"
-          className="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full rounded-full border border-gray-200 bg-surface py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
       <button
         type="button"
-        className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+        className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
       >
         Filter <ListFilter size={14} className="text-gray-500" />
       </button>
@@ -96,7 +96,7 @@ export default function ContentManagementPage() {
             {results.map((r) => (
               <div
                 key={r.id}
-                className="flex flex-col rounded-xl border border-gray-200 bg-white p-4"
+                className="flex flex-col rounded-xl border border-gray-200 bg-surface p-4"
               >
                 <h3 className="text-sm font-semibold text-gray-900">
                   {r.title}
@@ -155,7 +155,7 @@ export default function ContentManagementPage() {
           </div>
 
           {results.length === 0 && (
-            <div className="rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-500">
+            <div className="rounded-xl border border-gray-200 bg-surface py-16 text-center text-sm text-gray-500">
               No content matches &ldquo;{query}&rdquo;
             </div>
           )}

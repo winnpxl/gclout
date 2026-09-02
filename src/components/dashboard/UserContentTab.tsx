@@ -70,7 +70,7 @@ function PostEmbed({ embed }: { embed: NonNullable<UserPost["embed"]> }) {
           </div>
           <button
             type="button"
-            className="rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-primary hover:bg-blue-50"
+            className="rounded-lg bg-surface px-3 py-1.5 text-sm font-medium text-primary hover:bg-blue-50"
           >
             Remind me
           </button>
@@ -216,7 +216,7 @@ export function UserContentTab({
       : userPosts.filter((p) => p.moderation === filter);
 
   return (
-    <div className="mt-6 rounded-xl border border-gray-200 bg-white px-6 py-5">
+    <div className="mt-6 rounded-xl border border-gray-200 bg-surface px-6 py-5">
       <div className="flex items-center justify-between">
         <h3 className="text-base font-semibold text-gray-900">{heading}</h3>
         <div className="relative">
@@ -228,7 +228,7 @@ export function UserContentTab({
             {filter} <ChevronDown size={14} className="text-gray-400" />
           </button>
           {filterOpen && (
-            <div className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg">
               {filters.map((f) => (
                 <button
                   key={f}

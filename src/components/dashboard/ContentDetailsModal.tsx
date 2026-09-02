@@ -54,14 +54,14 @@ export function ContentDetailsModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-gray-900/40 p-4 pt-10"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/40 p-4 pt-10"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[88vh] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white shadow-xl"
+        className="flex max-h-[88vh] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-surface shadow-xl"
       >
         <div className="flex items-center justify-between px-5 py-4">
           <h2 className="text-sm font-semibold text-gray-900">Content details</h2>

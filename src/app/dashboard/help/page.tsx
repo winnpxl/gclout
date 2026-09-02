@@ -35,14 +35,14 @@ function DeleteNuggetModal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl"
+        className="w-full max-w-sm rounded-2xl bg-surface p-5 shadow-xl"
       >
         <div className="flex items-start justify-between">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-red-50">
@@ -108,14 +108,14 @@ function CreateNuggetModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl"
+        className="w-full max-w-md rounded-2xl bg-surface p-5 shadow-xl"
       >
         <div className="flex items-start justify-between">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600">
@@ -267,12 +267,12 @@ export default function HelpPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="search"
-            className="w-full rounded-full border border-gray-200 bg-white py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full rounded-full border border-gray-200 bg-surface py-2 pl-9 pr-4 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <button
           type="button"
-          className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+          className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
         >
           Filter <ListFilter size={14} className="text-gray-500" />
         </button>
@@ -289,7 +289,7 @@ export default function HelpPage() {
         {visible.map((c) => (
           <div
             key={c.id}
-            className="flex flex-col rounded-xl border border-gray-200 bg-white p-5"
+            className="flex flex-col rounded-xl border border-gray-200 bg-surface p-5"
           >
             <div className="flex items-start justify-between">
               <span
@@ -314,7 +314,7 @@ export default function HelpPage() {
                 </button>
                 {menuFor === c.id && (
                   <div
-                    className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+                    className="absolute right-0 z-10 mt-1 w-40 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <button
@@ -381,7 +381,7 @@ export default function HelpPage() {
       </div>
 
       {visible.length === 0 && (
-        <div className="mt-10 rounded-xl border border-gray-200 bg-white py-16 text-center text-sm text-gray-500">
+        <div className="mt-10 rounded-xl border border-gray-200 bg-surface py-16 text-center text-sm text-gray-500">
           Nothing matches &ldquo;{query}&rdquo;
         </div>
       )}

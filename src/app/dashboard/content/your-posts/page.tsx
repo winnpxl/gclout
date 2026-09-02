@@ -116,7 +116,7 @@ function EventEmbed() {
         </div>
         <button
           type="button"
-          className="rounded-lg bg-white px-3 py-1.5 text-sm font-medium text-primary hover:bg-blue-50"
+          className="rounded-lg bg-surface px-3 py-1.5 text-sm font-medium text-primary hover:bg-blue-50"
         >
           Remind me
         </button>
@@ -169,7 +169,7 @@ export default function YourPostsPage() {
             <Plus size={15} /> Create content
           </button>
           {menuOpen && (
-            <div className="absolute right-0 z-10 mt-1 w-48 rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+            <div className="absolute right-0 z-10 mt-1 w-48 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg">
               <button
                 type="button"
                 onClick={() => {
@@ -223,7 +223,7 @@ export default function YourPostsPage() {
         ))}
       </div>
 
-      <div className="max-w-3xl rounded-xl border border-gray-200 bg-white px-6 py-4">
+      <div className="max-w-3xl rounded-xl border border-gray-200 bg-surface px-6 py-4">
         <h3 className="text-sm font-semibold text-gray-900">All posts</h3>
         <div>
           {posts.map((post) => (

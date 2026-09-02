@@ -73,14 +73,14 @@ function NewMessageModal({ onClose, onStart }: NewMessageModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-end bg-gray-900/20 p-6"
+      className="fixed inset-0 z-50 flex items-start justify-end bg-black/20 p-6"
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[80vh] w-full max-w-xl flex-col rounded-2xl bg-white p-5 shadow-xl"
+        className="flex max-h-[80vh] w-full max-w-xl flex-col rounded-2xl bg-surface p-5 shadow-xl"
       >
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-gray-900">New message</h2>
@@ -98,7 +98,7 @@ function NewMessageModal({ onClose, onStart }: NewMessageModalProps) {
           {selected.map((name) => (
             <span
               key={name}
-              className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white py-0.5 pl-1 pr-2 text-xs text-gray-800"
+              className="flex items-center gap-1.5 rounded-full border border-gray-200 bg-surface py-0.5 pl-1 pr-2 text-xs text-gray-800"
             >
               <Avatar name={name} size="h-4 w-4" />
               {name.split(" ")[0]}
@@ -177,7 +177,7 @@ function MessageBubble({ msg, senderName }: { msg: ChatMessage; senderName: stri
   const isYou = msg.from === "you";
 
   const content = msg.attachment ? (
-    <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3">
+    <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-surface px-4 py-3">
       <span className="flex h-9 w-9 items-center justify-center rounded bg-red-600 text-white">
         <FileText size={16} />
       </span>
@@ -317,7 +317,7 @@ export default function MessagesPage() {
   return (
     <div className="flex h-full min-h-0 overflow-hidden">
       {/* Conversation list */}
-      <div className="flex w-96 shrink-0 flex-col border-r border-gray-200 bg-white">
+      <div className="flex w-96 shrink-0 flex-col border-r border-gray-200 bg-surface">
         <div className="flex items-center justify-between px-4 pt-5">
           <h1 className="text-xl font-semibold text-gray-900">Messages</h1>
           <div className="flex items-center gap-2">
@@ -396,7 +396,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Chat thread */}
-      <div className="flex min-w-0 flex-1 flex-col bg-white">
+      <div className="flex min-w-0 flex-1 flex-col bg-surface">
         <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
           <div className="flex items-center gap-3">
             <Avatar name={active.name} size="h-11 w-11" />
@@ -405,7 +405,7 @@ export default function MessagesPage() {
                 {active.name}
               </h2>
               {active.role && (
-                <span className="rounded-full border border-gray-200 bg-white px-2.5 py-0.5 text-xs text-gray-600">
+                <span className="rounded-full border border-gray-200 bg-surface px-2.5 py-0.5 text-xs text-gray-600">
                   {active.role}
                 </span>
               )}
