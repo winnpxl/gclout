@@ -25,15 +25,15 @@ export default function DashboardPage() {
   const [dateLabel, setDateLabel] = useState("Select dates");
 
   return (
-    <main className="px-6 py-6 space-y-6">
-      <div className="flex items-start justify-between">
+    <main className="space-y-6 px-4 py-6 sm:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Overview</h1>
           <p className="mt-1 text-sm text-gray-500">
             Measure your advertising ROI and track and report website traffic.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
@@ -49,15 +49,15 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="inline-flex rounded-md border border-gray-200 bg-surface">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="inline-flex max-w-full overflow-x-auto rounded-md border border-gray-200 bg-surface">
           {ranges.map((r) => (
             <button
               key={r}
               type="button"
               onClick={() => setRange(r)}
               className={cn(
-                "px-3 py-1.5 text-sm border-r border-gray-200 last:border-r-0",
+                "shrink-0 whitespace-nowrap px-3 py-1.5 text-sm border-r border-gray-200 last:border-r-0",
                 range === r
                   ? "bg-gray-50 font-medium text-gray-900"
                   : "text-gray-600 hover:bg-gray-50"
@@ -73,7 +73,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         {stats.map((s) =>
           s.label === "Verification Requests" ? (
             <Link
@@ -89,7 +89,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <UserGrowthChart />
         <ContentDistributionChart />
       </div>
