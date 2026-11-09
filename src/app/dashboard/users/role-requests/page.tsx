@@ -59,8 +59,8 @@ export default function RoleChangeRequestsPage() {
   }
 
   return (
-    <main className="px-6 py-6 space-y-6" onClick={() => setMenuFor(null)}>
-      <div className="flex items-start justify-between">
+    <main className="space-y-6 px-4 py-6 sm:px-6" onClick={() => setMenuFor(null)}>
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
             Role Change Requests
@@ -69,7 +69,7 @@ export default function RoleChangeRequestsPage() {
             Review and approve requests from users to change their account role.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
@@ -85,7 +85,7 @@ export default function RoleChangeRequestsPage() {
         </div>
       </div>
 
-      <div className="relative w-72">
+      <div className="relative w-full sm:w-72">
         <Search
           size={14}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -100,132 +100,145 @@ export default function RoleChangeRequestsPage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-surface">
-        <table className="w-full">
-          <thead className="border-b border-gray-100 bg-gray-50/50">
-            <tr>
-              {["ID", "Name", "Current Role", "Requested Role", "Reason", "Date", "Status", "Actions"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map((r) => (
-              <tr
-                key={r.id}
-                onClick={() => setReviewing(r)}
-                className="cursor-pointer hover:bg-gray-50/50"
-              >
-                <td className="px-4 py-4 text-sm text-gray-600">{r.id}</td>
-                <td className="px-4 py-4">
-                  <div className="text-sm font-medium text-gray-900">{r.name}</div>
-                  <div className="text-xs text-gray-500">{r.email}</div>
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{r.currentRole}</td>
-                <td className="px-4 py-4 text-sm font-medium text-gray-900">
-                  {r.requestedRole}
-                </td>
-                <td className="max-w-56 px-4 py-4 text-sm text-gray-600">
-                  {r.reason}
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{r.date}</td>
-                <td className="px-4 py-4">
-                  <span
-                    className={cn(
-                      "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      statusStyles[r.status]
-                    )}
-                  >
-                    {r.status}
-                  </span>
-                </td>
-                <td
-                  className="relative px-4 py-4"
-                  onClick={(e) => e.stopPropagation()}
+        {/* Scrolls sideways when the screen is too narrow for every column. */}
+        <div className="max-xl:overflow-x-auto">
+          <table className="w-full">
+            <thead className="border-b border-gray-100 bg-gray-50/50">
+              <tr>
+                {["ID", "Name", "Current Role", "Requested Role", "Reason", "Date", "Status", "Actions"].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500"
+                    >
+                      {h}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map((r, i) => (
+                <tr
+                  key={r.id}
+                  onClick={() => setReviewing(r)}
+                  className="cursor-pointer hover:bg-gray-50/50"
                 >
-                  <button
-                    type="button"
-                    aria-label={`Actions for ${r.id}`}
-                    onClick={() =>
-                      setMenuFor(menuFor === r.id ? null : r.id)
-                    }
-                    className="text-gray-400 hover:text-gray-600"
+                  <td className="px-4 py-4 text-sm text-gray-600">{r.id}</td>
+                  <td className="px-4 py-4">
+                    <div className="text-sm font-medium text-gray-900">{r.name}</div>
+                    <div className="text-xs text-gray-500">{r.email}</div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{r.currentRole}</td>
+                  <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                    {r.requestedRole}
+                  </td>
+                  <td className="max-w-56 px-4 py-4 text-sm text-gray-600">
+                    {r.reason}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{r.date}</td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={cn(
+                        "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        statusStyles[r.status]
+                      )}
+                    >
+                      {r.status}
+                    </span>
+                  </td>
+                  <td
+                    className="px-4 py-4"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <MoreVertical size={16} />
-                  </button>
-                  {menuFor === r.id && (
-                    <div className="absolute right-6 top-10 z-10 w-48 rounded-xl border border-gray-200 bg-surface py-1.5 shadow-lg">
+                    {/* Anchor the menu to the button so it opens next to it even when the table is scrolled sideways. */}
+                    <div className="relative inline-block">
                       <button
                         type="button"
-                        onClick={() => {
-                          setMenuFor(null);
-                          router.push(`/dashboard/users/${r.userId}`);
-                        }}
-                        className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
+                        aria-label={`Actions for ${r.id}`}
+                        onClick={() =>
+                          setMenuFor(menuFor === r.id ? null : r.id)
+                        }
+                        className="text-gray-400 hover:text-gray-600"
                       >
-                        <IdCard size={16} className="text-gray-500" /> View
-                        profile
+                        <MoreVertical size={16} />
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setMenuFor(null);
-                          setReviewing(r);
-                        }}
-                        className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
-                      >
-                        <ClipboardList size={16} className="text-gray-500" />{" "}
-                        View application
-                      </button>
-                      {r.status === "Pending" && (
-                        <>
+                      {menuFor === r.id && (
+                        <div
+                          className={`absolute right-0 z-10 w-48 rounded-xl border border-gray-200 bg-surface py-1.5 shadow-lg ${
+                            // Open upwards on the last rows so the menu stays inside the table.
+                            i >= filtered.length - 2 && filtered.length > 3
+                              ? "bottom-7"
+                              : "top-7"
+                          }`}
+                        >
                           <button
                             type="button"
                             onClick={() => {
                               setMenuFor(null);
-                              setStatus(r.id, "Approved");
+                              router.push(`/dashboard/users/${r.userId}`);
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
                           >
-                            <CircleCheck size={16} className="text-gray-500" />{" "}
-                            Approve request
+                            <IdCard size={16} className="text-gray-500" /> View
+                            profile
                           </button>
                           <button
                             type="button"
                             onClick={() => {
                               setMenuFor(null);
-                              setRejecting({ id: r.id, name: r.name });
+                              setReviewing(r);
                             }}
                             className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
                           >
-                            <Ban size={16} className="text-gray-500" /> Reject
-                            request
+                            <ClipboardList size={16} className="text-gray-500" />{" "}
+                            View application
                           </button>
-                        </>
+                          {r.status === "Pending" && (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setMenuFor(null);
+                                  setStatus(r.id, "Approved");
+                                }}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
+                              >
+                                <CircleCheck size={16} className="text-gray-500" />{" "}
+                                Approve request
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setMenuFor(null);
+                                  setRejecting({ id: r.id, name: r.name });
+                                }}
+                                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
+                              >
+                                <Ban size={16} className="text-gray-500" /> Reject
+                                request
+                              </button>
+                            </>
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td
-                  colSpan={8}
-                  className="px-4 py-10 text-center text-sm text-gray-500"
-                >
-                  No requests match &ldquo;{query}&rdquo;
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  </td>
+                </tr>
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={8}
+                    className="px-4 py-10 text-center text-sm text-gray-500"
+                  >
+                    No requests match &ldquo;{query}&rdquo;
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
         <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
           <button

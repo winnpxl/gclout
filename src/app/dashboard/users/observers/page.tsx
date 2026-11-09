@@ -32,8 +32,8 @@ export default function ElectionObserversPage() {
     : electionObservers;
 
   return (
-    <main className="px-6 py-6 space-y-6">
-      <div className="flex items-start justify-between">
+    <main className="space-y-6 px-4 py-6 sm:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
             Election Observers
@@ -42,7 +42,7 @@ export default function ElectionObserversPage() {
             Manage accredited observer organizations and their representatives.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
@@ -64,7 +64,7 @@ export default function ElectionObserversPage() {
         </div>
       </div>
 
-      <div className="relative w-72">
+      <div className="relative w-full sm:w-72">
         <Search
           size={14}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -79,67 +79,70 @@ export default function ElectionObserversPage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-surface">
-        <table className="w-full">
-          <thead className="border-b border-gray-100 bg-gray-50/50">
-            <tr>
-              {["ID", "Name", "Organization", "State", "Election", "Accreditation", ""].map(
-                (h, i) => (
-                  <th
-                    key={i}
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map((o) => (
-              <tr key={o.id} className="hover:bg-gray-50/50">
-                <td className="px-4 py-4 text-sm text-gray-600">{o.id}</td>
-                <td className="px-4 py-4">
-                  <div className="text-sm font-medium text-gray-900">{o.name}</div>
-                  <div className="text-xs text-gray-500">{o.email}</div>
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">
-                  {o.organization}
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{o.state}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{o.election}</td>
-                <td className="px-4 py-4">
-                  <span
-                    className={cn(
-                      "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      statusStyles[o.status]
-                    )}
-                  >
-                    {o.status}
-                  </span>
-                </td>
-                <td className="px-4 py-4">
-                  <button
-                    type="button"
-                    aria-label={`Actions for ${o.name}`}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <MoreVertical size={14} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
+        {/* Scrolls sideways when the screen is too narrow for every column. */}
+        <div className="max-xl:overflow-x-auto">
+          <table className="w-full">
+            <thead className="border-b border-gray-100 bg-gray-50/50">
               <tr>
-                <td
-                  colSpan={7}
-                  className="px-4 py-10 text-center text-sm text-gray-500"
-                >
-                  No observers match &ldquo;{query}&rdquo;
-                </td>
+                {["ID", "Name", "Organization", "State", "Election", "Accreditation", ""].map(
+                  (h, i) => (
+                    <th
+                      key={i}
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500"
+                    >
+                      {h}
+                    </th>
+                  )
+                )}
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map((o) => (
+                <tr key={o.id} className="hover:bg-gray-50/50">
+                  <td className="px-4 py-4 text-sm text-gray-600">{o.id}</td>
+                  <td className="px-4 py-4">
+                    <div className="text-sm font-medium text-gray-900">{o.name}</div>
+                    <div className="text-xs text-gray-500">{o.email}</div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">
+                    {o.organization}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{o.state}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{o.election}</td>
+                  <td className="px-4 py-4">
+                    <span
+                      className={cn(
+                        "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        statusStyles[o.status]
+                      )}
+                    >
+                      {o.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4">
+                    <button
+                      type="button"
+                      aria-label={`Actions for ${o.name}`}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <MoreVertical size={14} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-sm text-gray-500"
+                  >
+                    No observers match &ldquo;{query}&rdquo;
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
         <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
           <button

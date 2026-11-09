@@ -52,7 +52,7 @@ function FormRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+    <div className="grid grid-cols-1 gap-3 border-b md:grid-cols-[240px_1fr] md:gap-8 border-gray-100 py-5">
       <div>
         <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
           {label}
@@ -60,7 +60,7 @@ function FormRow({
         </div>
         {hint && <p className="mt-0.5 text-xs text-gray-500">{hint}</p>}
       </div>
-      <div className="max-w-lg">{children}</div>
+      <div className="min-w-0 max-w-lg">{children}</div>
     </div>
   );
 }
@@ -1302,7 +1302,7 @@ function SecurityTab() {
       </p>
 
       <div className="mt-4">
-        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+        <div className="grid grid-cols-1 gap-3 border-b md:grid-cols-[240px_1fr] md:gap-8 border-gray-100 py-5">
           <span className="text-sm font-medium text-gray-700">
             Current password
           </span>
@@ -1315,7 +1315,7 @@ function SecurityTab() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+        <div className="grid grid-cols-1 gap-3 border-b md:grid-cols-[240px_1fr] md:gap-8 border-gray-100 py-5">
           <span className="text-sm font-medium text-gray-700">New password</span>
           <div className="max-w-sm">
             <PasswordField
@@ -1329,7 +1329,7 @@ function SecurityTab() {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-[240px_1fr] gap-8 border-b border-gray-100 py-5">
+        <div className="grid grid-cols-1 gap-3 border-b md:grid-cols-[240px_1fr] md:gap-8 border-gray-100 py-5">
           <span className="text-sm font-medium text-gray-700">
             Confirm new password
           </span>
@@ -1463,14 +1463,14 @@ export default function SettingsPage() {
   const [team, setTeam] = useState(initialTeam);
 
   return (
-    <main className="px-6 py-6">
+    <main className="px-4 py-6 sm:px-6">
       {/* Identity */}
       <div className="flex items-center gap-4">
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-lg font-semibold text-primary">
           JA
         </span>
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-xl font-semibold text-gray-900">
               James Akintaro
             </h1>

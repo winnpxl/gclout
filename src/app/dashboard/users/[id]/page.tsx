@@ -88,7 +88,7 @@ export default function UserProfilePage({
   const tabs = isAdvertiser ? advertiserTabs : citizenTabs;
 
   return (
-    <main className="px-6 py-6">
+    <main className="px-4 py-6 sm:px-6">
       <div className="flex items-center gap-4">
         <Link
           href="/dashboard/users"
@@ -104,14 +104,14 @@ export default function UserProfilePage({
       <img
         src="/images/banner-profile.png"
         alt=""
-        className="mt-4 h-56 w-full rounded-xl object-cover"
+        className="mt-4 h-40 w-full rounded-xl object-cover sm:h-56"
       />
 
       {/* Avatar + name + actions */}
-      <div className="flex items-start justify-between px-6">
-        <div className="flex items-end gap-5 -mt-16">
+      <div className="flex flex-col gap-4 px-2 sm:px-6 md:flex-row md:items-start md:justify-between">
+        <div className="-mt-12 flex min-w-0 flex-wrap items-end gap-x-5 gap-y-3 sm:-mt-16">
           {user.avatar ? (
-            <div className="h-36 w-36 shrink-0 overflow-hidden rounded-full border-4 border-surface shadow">
+            <div className="h-24 w-24 shrink-0 overflow-hidden sm:h-36 sm:w-36 rounded-full border-4 border-surface shadow">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={user.avatar}
@@ -120,13 +120,15 @@ export default function UserProfilePage({
               />
             </div>
           ) : (
-            <span className="flex h-36 w-36 items-center justify-center rounded-full border-4 border-surface bg-rose-100 text-3xl font-semibold text-rose-700 shadow">
+            <span className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-4 border-surface bg-rose-100 text-2xl sm:h-36 sm:w-36 sm:text-3xl font-semibold text-rose-700 shadow">
               {initials(user.name)}
             </span>
           )}
-          <div className="pb-1">
-            <h2 className="text-2xl font-semibold text-gray-900">{user.name}</h2>
-            <div className="mt-2 flex items-center gap-2">
+          <div className="min-w-0 pb-1">
+            <h2 className="break-words text-xl font-semibold text-gray-900 sm:text-2xl">
+              {user.name}
+            </h2>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               {isAdvertiser ? (
                 <span className="rounded-full border border-red-200 bg-red-50 px-3 py-0.5 text-xs font-medium text-red-500">
                   Advertiser
@@ -147,7 +149,7 @@ export default function UserProfilePage({
             </div>
           </div>
         </div>
-        <div className="mt-4 flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 md:mt-4">
           <button
             type="button"
             aria-label={`Email ${user.name}`}
@@ -194,14 +196,14 @@ export default function UserProfilePage({
       </div>
 
       {/* Tabs */}
-      <div className="mt-8 flex gap-6 border-b border-gray-200">
+      <div className="mt-8 flex gap-6 border-b border-gray-200 max-md:overflow-x-auto">
         {tabs.map((t) => (
           <button
             key={t}
             type="button"
             onClick={() => setTab(t)}
             className={cn(
-              "-mb-px border-b-2 pb-3 text-sm transition-colors",
+              "-mb-px shrink-0 whitespace-nowrap border-b-2 pb-3 text-sm transition-colors max-md:mb-0",
               tab === t
                 ? "border-primary font-medium text-primary"
                 : "border-transparent text-gray-500 hover:text-gray-700"

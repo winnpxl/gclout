@@ -67,8 +67,8 @@ export default function UsersPage() {
   }
 
   return (
-    <main className="px-6 py-6 space-y-6" onClick={() => setMenuFor(null)}>
-      <div className="flex items-start justify-between">
+    <main className="space-y-6 px-4 py-6 sm:px-6" onClick={() => setMenuFor(null)}>
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">
             User Management
@@ -77,7 +77,7 @@ export default function UsersPage() {
             View and manage existing user accounts and permissions.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             className="flex items-center gap-2 rounded-md border border-gray-200 bg-surface px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
@@ -99,7 +99,7 @@ export default function UsersPage() {
         </div>
       </div>
 
-      <div className="relative w-72">
+      <div className="relative w-full sm:w-72">
         <Search
           size={14}
           className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -114,126 +114,134 @@ export default function UsersPage() {
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-surface">
-        <table className="w-full">
-          <thead className="border-b border-gray-100 bg-gray-50/50">
-            <tr>
-              {["Name", "Email", "Phone Number", "Role", "Status", "Last login", ""].map(
-                (h, i) => (
-                  <th
-                    key={i}
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500"
-                  >
-                    {h}
-                  </th>
-                )
-              )}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filtered.map((user, i) => (
-              <tr key={user.email} className="hover:bg-gray-50/50">
-                <td className="px-4 py-4">
-                  <div className="flex items-center gap-3">
+        {/* Scrolls sideways when the screen is too narrow for every column. */}
+        <div className="max-xl:overflow-x-auto">
+          <table className="w-full">
+            <thead className="border-b border-gray-100 bg-gray-50/50">
+              <tr>
+                {["Name", "Email", "Phone Number", "Role", "Status", "Last login", ""].map(
+                  (h, i) => (
+                    <th
+                      key={i}
+                      className="px-4 py-3 text-left text-xs font-medium text-gray-500"
+                    >
+                      {h}
+                    </th>
+                  )
+                )}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filtered.map((user, i) => (
+                <tr key={user.email} className="hover:bg-gray-50/50">
+                  <td className="px-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={cn(
+                          "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold",
+                          avatarColors[i % avatarColors.length]
+                        )}
+                      >
+                        {initials(user.name)}
+                      </span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {user.name}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.email}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.phone}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">{user.role}</td>
+                  <td className="px-4 py-4">
                     <span
                       className={cn(
-                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold",
-                        avatarColors[i % avatarColors.length]
+                        "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        statusStyles[user.status]
                       )}
                     >
-                      {initials(user.name)}
+                      {user.status}
                     </span>
-                    <span className="text-sm font-medium text-gray-900">
-                      {user.name}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{user.email}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{user.phone}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{user.role}</td>
-                <td className="px-4 py-4">
-                  <span
-                    className={cn(
-                      "inline-block rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      statusStyles[user.status]
-                    )}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-                <td className="px-4 py-4 text-sm text-gray-600">
-                  {user.lastLogin}
-                </td>
-                <td className="relative px-4 py-4">
-                  <button
-                    type="button"
-                    aria-label={`Actions for ${user.name}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setMenuFor(menuFor === user.email ? null : user.email);
-                    }}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <MoreVertical size={14} />
-                  </button>
-                  {menuFor === user.email && (
-                    <div
-                      className="absolute right-4 top-10 z-10 w-44 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg"
-                      onClick={(e) => e.stopPropagation()}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600">
+                    {user.lastLogin}
+                  </td>
+                  <td className="relative px-4 py-4">
+                    <button
+                      type="button"
+                      aria-label={`Actions for ${user.name}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setMenuFor(menuFor === user.email ? null : user.email);
+                      }}
+                      className="text-gray-400 hover:text-gray-600"
                     >
-                      <Link
-                        href={`/dashboard/users/${user.id}`}
-                        className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                      <MoreVertical size={14} />
+                    </button>
+                    {menuFor === user.email && (
+                      <div
+                        className={`absolute right-4 z-10 w-44 rounded-lg border border-gray-200 bg-surface py-1 shadow-lg ${
+                          // Open upwards on the last rows so the menu stays inside the table.
+                          i >= filtered.length - 2 && filtered.length > 3
+                            ? "bottom-10"
+                            : "top-10"
+                        }`}
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        View details
-                      </Link>
-                      {user.status === "Active" ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setMenuFor(null);
-                            setModal({
-                              type: "suspend",
-                              email: user.email,
-                              name: user.name,
-                            });
-                          }}
-                          className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                        <Link
+                          href={`/dashboard/users/${user.id}`}
+                          className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                         >
-                          Suspend user
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setMenuFor(null);
-                            setModal({
-                              type: "reactivate",
-                              email: user.email,
-                              name: user.name,
-                            });
-                          }}
-                          className="block w-full px-4 py-2 text-left text-sm text-primary hover:bg-blue-50"
-                        >
-                          Reactivate user
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {filtered.length === 0 && (
-              <tr>
-                <td
-                  colSpan={7}
-                  className="px-4 py-10 text-center text-sm text-gray-500"
-                >
-                  No users match &ldquo;{query}&rdquo;
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                          View details
+                        </Link>
+                        {user.status === "Active" ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenuFor(null);
+                              setModal({
+                                type: "suspend",
+                                email: user.email,
+                                name: user.name,
+                              });
+                            }}
+                            className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                          >
+                            Suspend user
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenuFor(null);
+                              setModal({
+                                type: "reactivate",
+                                email: user.email,
+                                name: user.name,
+                              });
+                            }}
+                            className="block w-full px-4 py-2 text-left text-sm text-primary hover:bg-blue-50"
+                          >
+                            Reactivate user
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="px-4 py-10 text-center text-sm text-gray-500"
+                  >
+                    No users match &ldquo;{query}&rdquo;
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
         <div className="flex items-center justify-between border-t border-gray-100 px-4 py-3">
           <button
@@ -242,7 +250,7 @@ export default function UsersPage() {
           >
             <ArrowLeft size={14} /> Previous
           </button>
-          <div className="flex items-center gap-1 text-sm">
+          <div className="hidden items-center gap-1 text-sm sm:flex">
             {[1, 2, 3].map((n) => (
               <button
                 key={n}

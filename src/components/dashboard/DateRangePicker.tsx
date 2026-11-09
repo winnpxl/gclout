@@ -144,8 +144,9 @@ export function DateRangePicker({ onApply, label }: DateRangePickerProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-20 mt-2 rounded-xl border border-gray-200 bg-surface p-4 shadow-lg">
-          <div className="flex gap-6">
+        <div className="z-20 rounded-xl border border-gray-200 bg-surface p-4 shadow-lg max-sm:fixed max-sm:inset-x-4 max-sm:top-20 max-sm:max-h-[calc(100dvh-6rem)] max-sm:overflow-y-auto sm:absolute sm:right-0 sm:mt-2">
+          {/* Phones: one month under the other in a centred panel. */}
+          <div className="flex flex-col gap-6 sm:flex-row">
             <MonthGrid
               year={view.year}
               month={view.month}
@@ -163,7 +164,7 @@ export function DateRangePicker({ onApply, label }: DateRangePickerProps) {
               onNext={() => shift(1)}
             />
           </div>
-          <div className="mt-3 flex items-center justify-between border-t border-gray-100 pt-3">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3">
             <div className="flex items-center gap-2 text-sm text-gray-700">
               <span className="rounded-md border border-gray-200 px-3 py-1.5">
                 {start ? fmt(start) : "—"}
